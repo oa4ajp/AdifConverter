@@ -62,12 +62,15 @@ Colocarle un ícono a la aplicación:
 ***********************************
 (--OK--)
 
-Subir el Software al Github.
-
+Incluir edición de los valores del ADIf con la grilla:
+******************************************************
+{Two way binbding}
+(--OK--)
 
 Repository:
 ***********
 Create repositorory on git hub
+
 position on the container directory
 
 git clone -b master https://github.com/oa4ajp/AdifConverter.git
@@ -77,4 +80,14 @@ git remote add upstream https://github.com/oa4ajp/AdifConverter.git
 git remote -v
 
 create .gitignore file excludng node_modules, etc..
+
+git add .
+
+git status
+
+git commit -m "Project commit"
+
+git push origin master
+
+Repositorio creado el 20181013
 
