@@ -1,0 +1,80 @@
+Reference: https://www.wpf-tutorial.com
+
+
+Basarte en el código pyton https://web.bxhome.org/content/adifpy
+
+Base your logic on this project:
+https://github.com/la1k/adif/blob/master/src/main/java/no/la1k/adif
+
+
+jalar de 4 4n 4 los valores de
+
+El encoding del archivo es ASCII.
+
+PAra probar el encoding modificar el archivo .adi con un hex editor y colocar los bytes necesario, verificar que tengsa el encoding utf8 y p´robar con una tilde.
+
+Los caracteres que exporta el N1MM no tienen el encodign UTF8
+
+El condigng por defecto es ASCII "S" opcionalmente se pueden especificar caracteres especiales usanod dataType = "I" (International characters)
+
+COMMENT_INTL	IntlString
+
+Los carcazteres string que maneja el ADI son ascii the 1 ..128, no incluye tildes por ejemplo.
+
+Antes de programas analizar e investigar bien, escalabilidad conedigng, etc.
+
+Para los tipos de datos International string manejar enconding utf8 para esas cadenas en particular, pero dejar eso para
+versiones posteriores, por el momento manjea cadens ASCII.
+
+Está bien que importes con ASCII ya que es el escenario por default.
+
+COMMENT_INTL
+
+si pones el Stream reader como ascii, no reconocerá los valores reales de los bytes del archivo adif.
+Es decir si por ejemplo mandas una letra con tilde por ejemplo 'á' al usar el stream reader con ASCII encoding converte su valore ascii a 0x3F 
+
+Con el encoding utf8 funciona bien ya que es compatible con el encoding ASCII que es encoding por default de los tags del ADIF.
+
+En caso quieres probar utf8 con caracteres internacionales tienes el asrhivo adif debería tener los multibytes que representan las tildes por ejemplo 
+
+uSANDO UTF8 El software interporeta correctamente los caracteres que fueron agregagos al archivo adif con el editor hexadecimal.
+
+Sería bueno porboar un archivo adif creado con campos international.
+Los char que se están procesando en utf8 se agregar sl stringbuilder con el dígito correcto , á y é por ejempo cuando el xml tenía hxC3A1 hxC3C9
+
+La hacer doble click en ela fila de la grilla sale exception:
+*************************************************************
+{Colocarlo como IsReadOnly="True" }
+{CanUserAddRows="False"}
+(--OK--)
+
+Poner espacios entre el texto del header y las columnas del grid:
+*****************************************************************
+(--OK--)
+
+Co9nfigurasr la versión del Sw para el deploy:
+**********************************************
+(--OK--)
+
+https://www.dropbox.com/s/gimgti37oglbgqh/AdifConverterV100.rar?dl=1
+
+Colocarle un ícono a la aplicación:
+***********************************
+(--OK--)
+
+Subir el Software al Github.
+
+
+Repository:
+***********
+Create repositorory on git hub
+position on the container directory
+
+git clone -b master https://github.com/oa4ajp/AdifConverter.git
+
+git remote add upstream https://github.com/oa4ajp/AdifConverter.git
+
+git remote -v
+
+create .gitignore file excludng node_modules, etc..
+
