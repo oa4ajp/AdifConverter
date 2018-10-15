@@ -48,7 +48,7 @@ namespace AdifConverter.ADIF
                         c = sr.Read();
                         if (c == -1)
                             return null; // null record
-                        if (Char.IsWhiteSpace((char)c))
+                        if (Char.IsWhiteSpace((char)c) || Char.IsLetterOrDigit((char)c))
                             break;
                         if (c == '<')
                         {

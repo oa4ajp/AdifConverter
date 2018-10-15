@@ -19,7 +19,8 @@ namespace AdifConverter.Controllers
 
             string[] separatingChar = { "<EOH>", "<eoh>" };
 
-            string fileContent = reader.ReadToEnd().Replace("\n", "").Replace("\r", "").Trim(); ;
+            //Remove LineBrake and Tabs characters
+            string fileContent = reader.ReadToEnd().Replace("\n", "").Replace("\r", "").Replace("\t", "").Trim(); ;
 
             string[] contentArray = fileContent.Split(separatingChar, System.StringSplitOptions.RemoveEmptyEntries);
 
