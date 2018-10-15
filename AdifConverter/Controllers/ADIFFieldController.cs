@@ -48,7 +48,7 @@ namespace AdifConverter.ADIF
                         c = sr.Read();
                         if (c == -1)
                             return null; // null record
-                        if (Char.IsWhiteSpace((char)c) || Char.IsLetterOrDigit((char)c))
+                        if (Char.IsWhiteSpace((char)c) || Char.IsLetterOrDigit((char)c) || (c == '>'))
                             break;
                         if (c == '<')
                         {
@@ -80,6 +80,7 @@ namespace AdifConverter.ADIF
                             return null; // "Invalid character '" + (char)c + "'.";
                         }
                         break;
+                    //Length Section
                     case 2:
                         c = sr.Read();
                         if (c == ':')
@@ -100,7 +101,9 @@ namespace AdifConverter.ADIF
                         }
                         else
                         {
-                            return null; //"Invalid character '" + (char)c + "'.";
+                            //return null; //"Invalid character '" + (char)c + "'.";
+                            length.Append("0");
+                            state = 4;
                         }
                         break;
                     case 3:
