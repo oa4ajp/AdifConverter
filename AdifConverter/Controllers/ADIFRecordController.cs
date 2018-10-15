@@ -17,7 +17,7 @@ namespace AdifConverter.Controllers
 
             var reader = new StreamReader(fileName, Encoding.UTF8);
 
-            string[] separatingChar = { "<EOH>" };
+            string[] separatingChar = { "<EOH>", "<eoh>" };
 
             string fileContent = reader.ReadToEnd().Replace("\n", "").Replace("\r", "").Trim(); ;
 

@@ -42,7 +42,6 @@ namespace AdifConverter
             if (openFileDialog.ShowDialog() == true)
             {
                 Records.Clear();                
-                dataGridAdif.Items.Clear();
                 dataGridAdif.Items.Refresh();
                 dataGridAdif.Columns.Clear();
 
