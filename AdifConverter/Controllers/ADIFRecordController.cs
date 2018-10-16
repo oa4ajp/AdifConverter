@@ -1,4 +1,5 @@
 ﻿using AdifConverter.ADIF;
+using AdifConverter.Exceptions;
 using AdifConverter.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AdifConverter.Controllers
 {
@@ -32,25 +34,35 @@ namespace AdifConverter.Controllers
 
             var record = new ADIFRecord();
 
-            for (;;)
+            try
             {
-                var field = fieldController.ParseField(streamReader);
-
-                if (field == null)
-                    break;               
-
-                if ("EOR".Equals(field.Name.ToUpper()))
+                for (; ; )
                 {
-                    var tempRecord = record.Clone() as ADIFRecord;
+                    var field = fieldController.ParseField(streamReader);
 
-                    adifRecords.Add(tempRecord);
-                    record = new ADIFRecord();
+                    if (field == null)
+                        break;
+
+                    if ("EOR".Equals(field.Name.ToUpper()))
+                    {
+                        var tempRecord = record.Clone() as ADIFRecord;
+
+                        adifRecords.Add(tempRecord);
+                        record = new ADIFRecord();
+                    }
+                    else
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
-                else
-                {
-                    record.Fields.Add(field);
-                }                                
-            }            
+
+            }
+            catch (AdifException ae)
+            {
+                var message = ae.Message;
+                MessageBox.Show($"{message} on row {adifRecords.Count + 1}.", Properties.Resources.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
+                return new List<ADIFRecord>();
+            }
 
             return adifRecords;
         }

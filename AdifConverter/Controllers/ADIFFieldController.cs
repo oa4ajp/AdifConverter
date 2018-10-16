@@ -1,4 +1,5 @@
-﻿using AdifConverter.Models;
+﻿using AdifConverter.Exceptions;
+using AdifConverter.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -36,6 +37,8 @@ namespace AdifConverter.ADIF
              *      end-of-record goes to state = 4
              * state = 4 :
              *      get the field value
+             *      
+             *      Read() -1 if no more characters are available.
              */
 
             while (true)
@@ -47,17 +50,18 @@ namespace AdifConverter.ADIF
                     case 0:
                         c = sr.Read();
                         if (c == -1)
-                            return null; // null record
-                        if (Char.IsWhiteSpace((char)c) || Char.IsLetterOrDigit((char)c) || (c == '>'))
+                            return null; // null field
+                        if (Char.IsWhiteSpace((char)c))
                             break;
                         if (c == '<')
                         {
                             state = 1;
                             break;
-                        }
-                        return null;
+                        }                        
+                        throw new AdifException($"Invalid character '{(char)c}', expected '<'");
 
                     case 1:
+                        //Name Section
                         c = sr.Read();
                         if (c == ':')
                         {
@@ -72,16 +76,16 @@ namespace AdifConverter.ADIF
                             name.Append((char)c);
                         }
                         else if (c == -1)
-                        {
-                            return null; // "Unexpected end-of-file encountered while reading ADIF record.";
+                        {                            
+                            throw new AdifException("Unexpected end-of-file encountered while reading ADIF record.");
                         }
                         else
-                        {
-                            return null; // "Invalid character '" + (char)c + "'.";
+                        {                            
+                            throw new AdifException($"Invalid character '{(char)c}' on the tag name");
                         }
-                        break;
-                    //Length Section
+                        break;                    
                     case 2:
+                        //Length Section
                         c = sr.Read();
                         if (c == ':')
                         {
@@ -97,16 +101,15 @@ namespace AdifConverter.ADIF
                         }
                         else if (c == -1)
                         {
-                            return null; // "Unexpected end-of-file encountered while reading ADIF record.";
+                            throw new AdifException("Unexpected end-of-file encountered while reading ADIF record.");
                         }
                         else
-                        {
-                            //return null; //"Invalid character '" + (char)c + "'.";
-                            length.Append("0");
-                            state = 4;
+                        {                            
+                            throw new AdifException($"Invalid character '{(char)c}' on the tag length.");
                         }
                         break;
                     case 3:
+                        //Type Sections
                         c = sr.Read();
                         if (c == '>')
                         {
@@ -118,7 +121,7 @@ namespace AdifConverter.ADIF
                         }
                         else
                         {
-                            return null; // "Invalid character '" + (char)c + "'.";
+                            throw new AdifException($"Invalid character '{(char)c}' on the tag type.");
                         }
                         break;
                     case 4:
@@ -130,8 +133,8 @@ namespace AdifConverter.ADIF
                                 fieldlen = Int32.Parse(length.ToString());
                             }
                             catch (Exception e)
-                            {
-                                return null; // "Can't parse field length '" + length + "'." + e;
+                            {                                
+                                throw new AdifException($"Can't parse field length {length} .");
                             }
                         }
                         break;
@@ -141,8 +144,8 @@ namespace AdifConverter.ADIF
                         {
                             c = sr.Read();
                             if (c == -1)
-                            {
-                                return null; // "Unexpected end-of-file encountered while reading ADIF record.";
+                            {                                
+                                throw new AdifException("Unexpected end-of-file encountered while reading ADIF record.");
                             }
                             value.Append((char)c);
                         }
@@ -158,7 +161,6 @@ namespace AdifConverter.ADIF
                         }
                         break;
                 }
-
             }
         }
     }

@@ -4,9 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AdifConverter"
+        xmlns:resx="clr-namespace:AdifConverter.Properties"                        
+        Title="{x:Static resx:Resources.ApplicationName}"
         mc:Ignorable="d"
-        Title="Adif Converter" 
         Height="350"
         Width="525"
         WindowStartupLocation="CenterScreen"
@@ -22,6 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20px" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="25px" />
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
@@ -44,6 +45,10 @@
            RowEditEnding="DataGridAdif_RowEditEnding"                  
            CanUserAddRows="False">
         </DataGrid>
-
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Name="lblStatusBar" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

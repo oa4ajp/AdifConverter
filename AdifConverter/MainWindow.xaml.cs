@@ -33,6 +33,7 @@ namespace AdifConverter
             Records = new List<ADIFRecord>();
             dataGridAdif.Visibility = Visibility.Hidden;
             DisableSave();
+            lblStatusBar.Text = $"QSOs: {Records.Count}";
         }
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
@@ -50,6 +51,8 @@ namespace AdifConverter
                 var adifRecordController = new ADIFRecordController();
                 Records = adifRecordController.ReadRecords(openFileDialog.FileName);
                 
+                if(!Records.Any()) return;
+
                 var columns = Records.First()
                     .Fields
                     .Select((x, i) => new { Name = x.Name, Index = i })
@@ -66,13 +69,16 @@ namespace AdifConverter
 
                 dataGridAdif.Visibility = Visibility.Visible;
                 EnableSave();
+                
+                this.Title = $"{Properties.Resources.ApplicationName} - {openFileDialog.FileName}";
+                lblStatusBar.Text = $"QSOs: {Records.Count}";
             }
         }
 
         private void MenuSaveCSV_Click(object sender, RoutedEventArgs e)
         {
             if (!Records.Any()) {
-                MessageBox.Show("No records found");
+                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
                 return;
             }
 
@@ -82,7 +88,7 @@ namespace AdifConverter
             {
                 var csvController = new CSVController(saveFileDialog.FileName);
                 csvController.SaveCsv(Records);                
-                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.");
+                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
         }
 
@@ -90,7 +96,7 @@ namespace AdifConverter
         {
             if (!Records.Any())
             {
-                MessageBox.Show("No records found");
+                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
                 return;
             }
 
@@ -100,7 +106,7 @@ namespace AdifConverter
             {
                 var csvController = new CSVController(saveFileDialog.FileName);
                 csvController.SavePlanillaCsv(Records);
-                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.");
+                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
         }
 
