@@ -153,7 +153,6 @@ namespace AdifConverter.Controllers
 
             using (var w = new StreamWriter(FilePath))
             {
-
                 foreach (var sb in stringBuilderList)
                 {
                     w.WriteLine(sb.ToString());
@@ -169,7 +168,8 @@ namespace AdifConverter.Controllers
 
             foreach (var adifField in adifRecord.Fields)
             {
-                AppendRows(csvRows, adifField.Name, fieldCounter, totalfields);
+                if (fieldCounter > 1)
+                    AppendRows(csvRows, adifField.Name, fieldCounter, totalfields);
                 fieldCounter++;
             }
         }
@@ -181,7 +181,9 @@ namespace AdifConverter.Controllers
 
             foreach (var adifField in adifRecord.Fields)
             {
-                AppendRows(csvRows, adifField.Value, fieldCounter, totalfields);
+                if(fieldCounter > 1)
+                    AppendRows(csvRows, adifField.Value, fieldCounter, totalfields);
+
                 fieldCounter++;
             }
         }

@@ -25,9 +25,9 @@ namespace AdifConverter.Models
          * fields (i.e those specified in the ADIF specification).
          */
 
-        public string Name { get; set; }
+        public string Name { get; set; } 
         public string Length { get; set; }
         public string Type { get; set; }
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
     }
 }

@@ -99,10 +99,60 @@ JTDX 18.1.0.92
 
 Poner row numbers en la grilla.
 Poner un icono co contraste por que no se ve en la barra de tareas del windows 10.
-revisar archiuvo n1mm de oas4dos, está botando ezxceptions a pesar de importar bien los registros.
-
 System.Windows.Data Error: 17 : Cannot get 'Item[]' value (type 'ADIFField') from 'Fields' (type 'List`1'). BindingExpression:Path=Fields[24].Value; DataItem='ADIFRecord' (HashCode=15642830); target element is 'TextBlock' (Name=''); target property is 'Text' (type 'String') ArgumentOutOfRangeException:'System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values.
-Parameter name: index'
-System.Windows.Data Error: 17 : Cannot get 'Item[]' value (type 'ADIFField') from 'Fields' (type 'List`1'). BindingExpression:Path=Fields[24].Value; DataItem='ADIFRecord' (HashCode=40828630); target element is 'TextBlock' (Name=''); target property is 'Text' (type 'String') ArgumentOutOfRangeException:'System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values.
-Parameter name: index'
-Parece que hay distintas columnas por fila o algo por el estilo.
+
+El campo Comment, es dinámico o el tag aperece sólo cuando se usa.
+La idea es que todos los recors tengan los mismos campos o cantidad de campos.
+
+El dispose de los reader está liberando correctamente la memoria con el Garbage Collector.
+El exportador del csv incluye los cambios hechos en la grilla.
+El export planilla OA no esta incluyendo las  modificaciones.
+call => index=10, Value N7BT
+
+Recien cuando se cambia la fila modificada, es decir se navega a otra línea se hace el bindeo en la lista de Records.
+Si se mantiene la misma línea no se produce el bindeo.
+
+
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=LostFocus }" 
+
+        <DataGrid Grid.Row="1"
+           Name="dataGridAdif" 
+           AutoGenerateColumns="false" 
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=LostFocus }" 
+           IsReadOnly="False"
+           BeginningEdit="DataGridAdif_BeginningEdit"
+           RowEditEnding="DataGridAdif_RowEditEnding"                  
+           CanUserAddRows="False">						
+
+e.EditingElement contine el valor modificado.		   
+CaretIndex = 7.
+CellChanged
+PropertyChanged
+
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=PropertyChanged }" 
+							
+            //Remove Line Field
+            if (adifRecord.Fields.Any()) adifRecord.Fields.RemoveAt(0);							
+			
+			
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Padding" Value="10 2 10 2"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Line}" Value="1">
+                    <Setter Property="Background" Value="Aqua"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style> 
+
+		<DataTrigger Binding="{Binding Fields.Value}" Value="1">
+		
+Colocar las celdas de la Columna Line como readonly y con un color distinto tipo excel.
+Usar estilos o propiedades xaml o por code behind.

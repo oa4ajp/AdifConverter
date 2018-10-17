@@ -32,7 +32,7 @@ namespace AdifConverter.Controllers
 
             var fieldController = new ADIFFieldController();
 
-            var record = new ADIFRecord();
+            var record = new ADIFRecord() { Fields = new List<ADIFField>() { new ADIFField() { Name = "Line", Value = $"{adifRecords.Count + 1}" } } };
 
             try
             {
@@ -48,7 +48,8 @@ namespace AdifConverter.Controllers
                         var tempRecord = record.Clone() as ADIFRecord;
 
                         adifRecords.Add(tempRecord);
-                        record = new ADIFRecord();
+
+                        record = new ADIFRecord() { Fields = new List<ADIFField>() { new ADIFField() { Name = "Line", Value= $"{adifRecords.Count + 1 }" } } };
                     }
                     else
                     {
@@ -63,8 +64,63 @@ namespace AdifConverter.Controllers
                 MessageBox.Show($"{message} on row {adifRecords.Count + 1}.", Properties.Resources.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<ADIFRecord>();
             }
+            finally
+            {
+                streamReader.Dispose();
+                mStrm.Dispose();
+                reader.Dispose();
+            }
+            
+            var processedRecords = ProcessRecords(adifRecords);
 
-            return adifRecords;
+            return processedRecords;
         }
+
+        public List<ADIFRecord> ProcessRecords(List<ADIFRecord> records)
+        {
+            //Sort the records by Field count descending 
+            var sortedRecords = records.OrderByDescending(r => r.Fields.Count).ToList();
+            var columns = sortedRecords.FirstOrDefault();
+
+            var processedRecords = new List<ADIFRecord>();
+            var processedFields = new List<ADIFField>();
+
+            if (columns == null) return new List<ADIFRecord>();
+
+            foreach (var record in records)
+            {
+                processedFields = new List<ADIFField>();
+
+                foreach (var column in columns.Fields)
+                {
+                    var adifField = new ADIFField() { Name = column.Name };                    
+
+                    foreach (var field in record.Fields)
+                    {                        
+                        if (column.Name == field.Name)
+                        {
+                            adifField.Length = field.Length;
+                            adifField.Type = field.Type;
+                            adifField.Value = field.Value;                            
+                            break;
+                        }
+                    }
+
+                    processedFields.Add(adifField);
+                }
+
+                processedRecords.Add( 
+                    new ADIFRecord()
+                    {
+                        Fields = processedFields
+                    }
+                );
+            }
+
+            return processedRecords;
+
+        }
+
     }
+
 }

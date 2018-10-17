@@ -39,11 +39,15 @@
            AutoGenerateColumns="false" 
            ItemsSource="{   Binding Path=Records, 
                             Mode=TwoWay, 
-                            UpdateSourceTrigger=PropertyChanged }" 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            IsAsync=True }" 
            IsReadOnly="False"
            BeginningEdit="DataGridAdif_BeginningEdit"
-           RowEditEnding="DataGridAdif_RowEditEnding"                  
-           CanUserAddRows="False">
+           RowEditEnding="DataGridAdif_RowEditEnding"    
+           CellEditEnding="DataGridAdif_CellEditEnding"
+           CanUserAddRows="False"
+           EnableColumnVirtualization="True"
+           EnableRowVirtualization = "True">
         </DataGrid>
         <StatusBar Grid.Row="2">
             <StatusBarItem>

@@ -27,6 +27,8 @@ namespace AdifConverter
     {
         public List<ADIFRecord> Records { get; set; }
 
+        public bool ManualCommit = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace AdifConverter
                 foreach (var column in columns)
                 {
                     var binding = new Binding(string.Format("Fields[{0}].Value", column.Index));
-                        var columnTemp = new DataGridTextColumn() { Header = column.Name, Binding = binding };
+                    var columnTemp = new DataGridTextColumn() { Header = column.Name, Binding = binding };
                     dataGridAdif.Columns.Add(columnTemp);
                 }
 
@@ -72,6 +74,8 @@ namespace AdifConverter
                 
                 this.Title = $"{Properties.Resources.ApplicationName} - {openFileDialog.FileName}";
                 lblStatusBar.Text = $"QSOs: {Records.Count}";
+
+                openFileDialog = null;
             }
         }
 
@@ -90,6 +94,7 @@ namespace AdifConverter
                 csvController.SaveCsv(Records);                
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
+            saveFileDialog = null;
         }
 
         private void MenuSavePlanillaCSV_Click(object sender, RoutedEventArgs e)
@@ -108,6 +113,7 @@ namespace AdifConverter
                 csvController.SavePlanillaCsv(Records);
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
+            saveFileDialog = null;
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
@@ -133,6 +139,16 @@ namespace AdifConverter
 
         private void DataGridAdif_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
+        }
+
+        private void DataGridAdif_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (!ManualCommit)
+            {
+                ManualCommit = true;
+                dataGridAdif.CommitEdit(DataGridEditingUnit.Row, true);
+                ManualCommit = false;
+            }
         }
     }
 }
