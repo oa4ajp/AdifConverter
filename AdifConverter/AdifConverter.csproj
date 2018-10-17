@@ -99,6 +99,7 @@
     </Page>
     <Compile Include="Controllers\ADIFFieldController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
+    <Compile Include="Controllers\DataGridController.cs" />
     <Compile Include="Exceptions\AdifException.cs" />
     <Compile Include="Models\ADIFField.cs" />
     <Compile Include="Controllers\ADIFRecordController.cs" />

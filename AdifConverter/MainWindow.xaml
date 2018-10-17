@@ -13,9 +13,6 @@
         WindowState="Maximized">
 
     <Window.Resources>
-        <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Padding" Value="10 2 10 2"/>
-        </Style>
     </Window.Resources>
 
     <Grid>
@@ -35,19 +32,41 @@
             </MenuItem>
         </Menu>
         <DataGrid Grid.Row="1"
-           Name="dataGridAdif" 
-           AutoGenerateColumns="false" 
-           ItemsSource="{   Binding Path=Records, 
+            Name="dataGridAdif" 
+            AutoGenerateColumns="false" 
+            ItemsSource="{  Binding Path=Records, 
                             Mode=TwoWay, 
                             UpdateSourceTrigger=PropertyChanged, 
                             IsAsync=True }" 
-           IsReadOnly="False"
-           BeginningEdit="DataGridAdif_BeginningEdit"
-           RowEditEnding="DataGridAdif_RowEditEnding"    
-           CellEditEnding="DataGridAdif_CellEditEnding"
-           CanUserAddRows="False"
-           EnableColumnVirtualization="True"
-           EnableRowVirtualization = "True">
+            IsReadOnly="False"
+            BeginningEdit="DataGridAdif_BeginningEdit"
+            RowEditEnding="DataGridAdif_RowEditEnding"    
+            CellEditEnding="DataGridAdif_CellEditEnding"
+            CanUserAddRows="False"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization = "True">
+            
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}" x:Key="LineNumberColumnStyle">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="Foreground" Value="#000000"/>
+                    <Setter Property="BorderBrush" Value="#000000"/>
+                    <Setter Property="BorderThickness" Value="1, 0, 0, 0"/>
+                </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="HeaderStyle">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="Foreground" Value="#000000"/>
+                    <Setter Property="BorderBrush" Value="#000000"/>
+                    <Setter Property="BorderThickness" Value="0, 0, 1, 1"/>
+                    <Setter Property="Padding" Value="6, 3, 6, 3"/>
+                </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="FirstColumnHeaderStyle">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="BorderBrush" Value="#000000"/>
+                    <Setter Property="BorderThickness" Value="1, 0, 1, 1"/>
+                    <Setter Property="Padding" Value="6, 3, 6, 3"/>
+                </Style>
+            </DataGrid.Resources>
         </DataGrid>
         <StatusBar Grid.Row="2">
             <StatusBarItem>

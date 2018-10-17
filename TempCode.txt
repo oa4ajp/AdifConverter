@@ -1,0 +1,36 @@
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=PropertyChanged }" 
+							
+            //Remove Line Field
+            if (adifRecord.Fields.Any()) adifRecord.Fields.RemoveAt(0);							
+			
+			
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Padding" Value="10 2 10 2"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Line}" Value="1">
+                    <Setter Property="Background" Value="Aqua"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style> 
+
+		<DataTrigger Binding="{Binding Fields.Value}" Value="1">
+		
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=LostFocus }" 
+
+        <DataGrid Grid.Row="1"
+           Name="dataGridAdif" 
+           AutoGenerateColumns="false" 
+           ItemsSource="{   Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=LostFocus }" 
+           IsReadOnly="False"
+           BeginningEdit="DataGridAdif_BeginningEdit"
+           RowEditEnding="DataGridAdif_RowEditEnding"                  
+           CanUserAddRows="False">						
+		
