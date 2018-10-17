@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -66,6 +67,117 @@ namespace AdifConverter
                     var columnTemp = new DataGridTextColumn() { Header = column.Name, Binding = binding };
                     dataGridAdif.Columns.Add(columnTemp);
                 }
+
+                var colorGray = (Color)ColorConverter.ConvertFromString("#F0F0F0");
+                var brushGray = new SolidColorBrush(colorGray);
+
+                var lineNumberColumnStyle = new Style
+                {
+                    TargetType = typeof(DataGridCell) //sets target type as DataGrid cell
+                };
+
+                var setterLineNumberColumnBackground = new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = brushGray
+                };
+
+                var setterLineNumberColumnForeground = new Setter
+                {
+                    Property = DataGridCell.ForegroundProperty,
+                    Value = Brushes.Black
+                };
+
+                var setterLineColumnBorder = new Setter
+                {
+                    Property = DataGridCell.BorderBrushProperty,
+                    Value = Brushes.Black
+                };
+
+                var setterLineColumnBorderThickness = new Setter
+                {
+                    Property = DataGridCell.BorderThicknessProperty,
+                    Value = new Thickness(1, 0, 0, 0)
+                };
+
+                lineNumberColumnStyle.Setters.Add(setterLineNumberColumnBackground);
+                lineNumberColumnStyle.Setters.Add(setterLineColumnBorder);
+                lineNumberColumnStyle.Setters.Add(setterLineColumnBorderThickness);
+                lineNumberColumnStyle.Setters.Add(setterLineNumberColumnForeground);
+
+                var styleHeader = new Style
+                {
+                    TargetType = typeof(DataGridColumnHeader) //sets target type as DataGrid cell
+                };
+
+                var setterBackgroundHeader = new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = brushGray
+                };
+
+                var setterBorder = new Setter
+                {
+                    Property = DataGridCell.BorderBrushProperty,
+                    Value = Brushes.Black
+                };
+
+                var setterBorderThickness = new Setter
+                {
+                    Property = DataGridCell.BorderThicknessProperty,
+                    Value = new Thickness(0, 0, 1, 1)
+                };
+
+                var setterPadding = new Setter
+                {
+                    Property = DataGridCell.PaddingProperty,
+                    Value = new Thickness(6, 3, 6, 3)
+                };
+
+                styleHeader.Setters.Add(setterBackgroundHeader);
+                styleHeader.Setters.Add(setterBorder);
+                styleHeader.Setters.Add(setterBorderThickness);
+                styleHeader.Setters.Add(setterPadding);
+
+                var styleHeaderFirstColumn = new Style
+                {
+                    TargetType = typeof(DataGridColumnHeader) 
+                };
+
+                var setterBackgroundHeaderFirstColumn = new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = brushGray
+                };
+
+                var setterBorderFirstColumn = new Setter
+                {
+                    Property = DataGridCell.BorderBrushProperty,
+                    Value = Brushes.Black
+                };
+
+                var setterBorderThicknessFirstColumn = new Setter
+                {
+                    Property = DataGridCell.BorderThicknessProperty,
+                    Value = new Thickness(1, 0, 1, 1)
+                };
+
+                var setterPaddingFirstColumn = new Setter
+                {
+                    Property = DataGridCell.PaddingProperty,
+                    Value = new Thickness(6, 3, 6, 3)
+                };
+
+                styleHeaderFirstColumn.Setters.Add(setterBackgroundHeaderFirstColumn);
+                styleHeaderFirstColumn.Setters.Add(setterBorderFirstColumn);
+                styleHeaderFirstColumn.Setters.Add(setterBorderThicknessFirstColumn);
+                styleHeaderFirstColumn.Setters.Add(setterPaddingFirstColumn);
+
+                dataGridAdif.ColumnHeaderStyle = styleHeader;
+
+                dataGridAdif.Columns[0].HeaderStyle = styleHeaderFirstColumn;
+                dataGridAdif.Columns[0].CellStyle = lineNumberColumnStyle;
+                dataGridAdif.Columns[0].IsReadOnly = true;
 
                 dataGridAdif.ItemsSource = Records;
 
