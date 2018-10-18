@@ -108,7 +108,6 @@ El exportador del csv incluye los cambios hechos en la grilla.
 
 call => index=10, Value N7BT
 
-
 e.EditingElement contine el valor modificado.		   
 CaretIndex = 7.
 CellChanged
@@ -116,5 +115,7 @@ PropertyChanged
 
 Poner un icono con contraste por que no se ve en la barra de tareas del windows 10.
 
+Colocar separadores horizontales como en los menus para el About Adif converter.
 
-
+		
+			

@@ -1,6 +1,7 @@
 ﻿using AdifConverter.ADIF;
 using AdifConverter.Controllers;
 using AdifConverter.Models;
+using AdifConverter.Views;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -139,6 +140,12 @@ namespace AdifConverter
                 dataGridAdif.CommitEdit(DataGridEditingUnit.Row, true);
                 ManualCommit = false;
             }
+        }
+
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
     }
 }

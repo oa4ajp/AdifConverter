@@ -1,0 +1,39 @@
+﻿<Window x:Class="AdifConverter.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdifConverter.Views"
+        xmlns:resx="clr-namespace:AdifConverter.Properties"  
+        mc:Ignorable="d"
+        Title="{Binding Source={x:Static resx:Resources.ApplicationName}, StringFormat=About {0}}" 
+        Height="300" 
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px" />
+            <RowDefinition Height="20px" />
+            <RowDefinition Height="25px" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="0" FontWeight="Bold"             
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} Version {1}">
+                    <Binding Source="{x:Static resx:Resources.ApplicationName}" />
+                    <Binding Source="{x:Static resx:Resources.Version}" />
+                </MultiBinding>
+            </TextBlock.Text>
+
+        </TextBlock>
+
+        <Separator Height="1" Margin="10,1,10,1"  Grid.Row="1" />
+        
+
+    </Grid>
+    
+</Window>

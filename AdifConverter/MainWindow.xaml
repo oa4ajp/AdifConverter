@@ -30,6 +30,9 @@
                 <Separator />
                 <MenuItem Header="_Exit" Click="MenuExit_Click"/>
             </MenuItem>
+            <MenuItem Header="Help" Height="20px">
+                <MenuItem Header="About ADIFConverter" Click="MenuItemAbout_Click" />
+            </MenuItem>
         </Menu>
         <DataGrid Grid.Row="1"
             Name="dataGridAdif" 
