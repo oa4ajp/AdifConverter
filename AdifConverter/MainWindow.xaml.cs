@@ -1,6 +1,7 @@
 ﻿using AdifConverter.ADIF;
 using AdifConverter.Controllers;
 using AdifConverter.Models;
+using AdifConverter.ViewModels;
 using AdifConverter.Views;
 using Microsoft.Win32;
 using System;
@@ -29,20 +30,21 @@ namespace AdifConverter
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<ADIFRecord> Records { get; set; }
+        public ADIFRecordViewModel ADIFRecordViewModel { get; set; }
 
         public bool ManualCommit = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            Records = new ObservableCollection<ADIFRecord>();                        
 
+            ADIFRecordViewModel = new ADIFRecordViewModel();
+                       
             dataGridAdif.Visibility = Visibility.Hidden;
             DisableSave();
-            lblStatusBar.Text = $"QSOs: {Records.Count}";
+            lblStatusBar.Text = $"QSOs: {ADIFRecordViewModel.Records.Count}";
 
-            DataContext = this;
+            DataContext = ADIFRecordViewModel;
 
             var binding = new Binding("Records")
             {
@@ -55,29 +57,31 @@ namespace AdifConverter
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "ADIF files (*.adi)|*.adi";
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "ADIF files (*.adi)|*.adi"
+            };
+
             if (openFileDialog.ShowDialog() == true)
             {
-                Records.Clear();                
+                ADIFRecordViewModel.Records.Clear();                
                 dataGridAdif.Items.Refresh();
                 dataGridAdif.Columns.Clear();
 
-                dataGridAdif.Visibility = Visibility.Hidden;
+                dataGridAdif.Visibility = Visibility.Hidden;               
 
-                var adifRecordController = new ADIFRecordController();
-                Records = adifRecordController.ReadRecords(openFileDialog.FileName);                
+                ADIFRecordViewModel.ReadRecords(openFileDialog.FileName);
 
-                if (!Records.Any()) return;
+                if (!ADIFRecordViewModel.Records.Any()) return;
 
                 var gridController = new DataGridController();  
-                gridController.SetupGrid(dataGridAdif, Records);
+                gridController.SetupGrid(dataGridAdif, ADIFRecordViewModel.Records);
 
                 dataGridAdif.Visibility = Visibility.Visible;
                 EnableSave();
                 
                 this.Title = $"{Properties.Resources.ApplicationName} - {openFileDialog.FileName}";
-                lblStatusBar.Text = $"QSOs: {Records.Count}";
+                lblStatusBar.Text = $"QSOs: {ADIFRecordViewModel.Records.Count}";
 
                 openFileDialog = null;
             }
@@ -85,17 +89,20 @@ namespace AdifConverter
 
         private void MenuSaveCSV_Click(object sender, RoutedEventArgs e)
         {
-            if (!Records.Any()) {
+            if (!ADIFRecordViewModel.Records.Any()) {
                 MessageBox.Show("No records found", Properties.Resources.ApplicationName);
                 return;
             }
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Csv file (*.csv)|*.csv";
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Csv file (*.csv)|*.csv"
+            };
+
             if (saveFileDialog.ShowDialog() == true)
             {
                 var csvController = new CSVController(saveFileDialog.FileName);
-                csvController.SaveCsv(Records);                
+                csvController.SaveCsv(ADIFRecordViewModel.Records);                
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
             saveFileDialog = null;
@@ -103,18 +110,20 @@ namespace AdifConverter
 
         private void MenuSavePlanillaCSV_Click(object sender, RoutedEventArgs e)
         {
-            if (!Records.Any())
+            if (!ADIFRecordViewModel.Records.Any())
             {
                 MessageBox.Show("No records found", Properties.Resources.ApplicationName);
                 return;
             }
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Csv file (*.csv)|*.csv";
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Csv file (*.csv)|*.csv"
+            };
             if (saveFileDialog.ShowDialog() == true)
             {
                 var csvController = new CSVController(saveFileDialog.FileName);
-                csvController.SavePlanillaCsv(Records);
+                csvController.SavePlanillaCsv(ADIFRecordViewModel.Records);
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
             saveFileDialog = null;
@@ -156,7 +165,7 @@ namespace AdifConverter
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             var aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }

@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\ADIFRecordViewModel.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -105,7 +106,6 @@
     <Compile Include="Controllers\DataGridController.cs" />
     <Compile Include="Exceptions\AdifException.cs" />
     <Compile Include="Models\ADIFField.cs" />
-    <Compile Include="Controllers\ADIFRecordController.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

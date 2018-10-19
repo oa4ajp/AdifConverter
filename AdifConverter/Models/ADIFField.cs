@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AdifConverter.Models
 {
-    public class ADIFField
+    public class ADIFField : INotifyPropertyChanged
     {
         /**
          * Representation of an ADIF field.
@@ -25,9 +26,63 @@ namespace AdifConverter.Models
          * fields (i.e those specified in the ADIF specification).
          */
 
-        public string Name { get; set; } 
-        public string Length { get; set; }
-        public string Type { get; set; }
-        public string Value { get; set; } = string.Empty;
+        private string _name;
+        private string _length;
+        private string _Type;
+        private string _value;
+
+        public ADIFField()
+        {
+            Value = string.Empty;
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                RaisePropertyChanged("Name");
+            }
+        } 
+        public string Length
+        {
+            get { return _length; }
+            set
+            {
+                _length = value;
+                RaisePropertyChanged("Length");
+            }
+        }
+        public string Type
+        {
+            get { return _Type; }
+            set
+            {
+                _Type = value;
+                RaisePropertyChanged("Type");
+            }
+        }
+
+        public string Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

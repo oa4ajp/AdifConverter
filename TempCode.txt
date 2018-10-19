@@ -66,6 +66,11 @@ Records.Add(new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { 
 
 UpdateData:
 ***********		   
-//Records[1].Fields[1].Value = "12345";
+
 Records[1] = new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "CALL", Value = "OA4AJP" } } };
+
+Con el INotifyPropertyChanged se actulizó la grilla al manipular las propiedades del ADIFField:
+***********************************************************************************************
+Records[1].Fields[1].Value = "12345";
+
 
