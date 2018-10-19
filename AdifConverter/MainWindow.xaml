@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:resx="clr-namespace:AdifConverter.Properties"                        
+        xmlns:resx="clr-namespace:AdifConverter.Properties"                                           
         Title="{x:Static resx:Resources.ApplicationName}"
         mc:Ignorable="d"
         Height="350"
@@ -34,13 +34,10 @@
                 <MenuItem Header="About ADIFConverter" Click="MenuItemAbout_Click" />
             </MenuItem>
         </Menu>
+
         <DataGrid Grid.Row="1"
             Name="dataGridAdif" 
-            AutoGenerateColumns="false" 
-            ItemsSource="{  Binding Path=Records, 
-                            Mode=TwoWay, 
-                            UpdateSourceTrigger=PropertyChanged, 
-                            IsAsync=True }" 
+            AutoGenerateColumns="false"                   
             IsReadOnly="False"
             BeginningEdit="DataGridAdif_BeginningEdit"
             RowEditEnding="DataGridAdif_RowEditEnding"    

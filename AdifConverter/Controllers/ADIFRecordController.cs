@@ -3,6 +3,7 @@ using AdifConverter.Exceptions;
 using AdifConverter.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,9 @@ namespace AdifConverter.Controllers
 {
     public class ADIFRecordController
     {
-        public List<ADIFRecord> ReadRecords(string fileName)
+        public ObservableCollection<ADIFRecord> ReadRecords(string fileName)
         {
-            var adifRecords = new List<ADIFRecord>();
+            var adifRecords = new ObservableCollection<ADIFRecord>();
 
             var reader = new StreamReader(fileName, Encoding.UTF8);
 
@@ -32,7 +33,7 @@ namespace AdifConverter.Controllers
 
             var fieldController = new ADIFFieldController();
 
-            var record = new ADIFRecord() { Fields = new List<ADIFField>() { new ADIFField() { Name = "Line", Value = $"{adifRecords.Count + 1}" } } };
+            var record = new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "Line", Value = $"{adifRecords.Count + 1}" } } };
 
             try
             {
@@ -49,7 +50,7 @@ namespace AdifConverter.Controllers
 
                         adifRecords.Add(tempRecord);
 
-                        record = new ADIFRecord() { Fields = new List<ADIFField>() { new ADIFField() { Name = "Line", Value= $"{adifRecords.Count + 1 }" } } };
+                        record = new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "Line", Value= $"{adifRecords.Count + 1 }" } } };
                     }
                     else
                     {
@@ -62,7 +63,7 @@ namespace AdifConverter.Controllers
             {
                 var message = ae.Message;
                 MessageBox.Show($"{message} on row {adifRecords.Count + 1}.", Properties.Resources.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
-                return new List<ADIFRecord>();
+                return new ObservableCollection<ADIFRecord>();
             }
             finally
             {
@@ -76,20 +77,20 @@ namespace AdifConverter.Controllers
             return processedRecords;
         }
 
-        public List<ADIFRecord> ProcessRecords(List<ADIFRecord> records)
+        public ObservableCollection<ADIFRecord> ProcessRecords(ObservableCollection<ADIFRecord> records)
         {
             //Sort the records by Field count descending 
             var sortedRecords = records.OrderByDescending(r => r.Fields.Count).ToList();
             var columns = sortedRecords.FirstOrDefault();
 
-            var processedRecords = new List<ADIFRecord>();
-            var processedFields = new List<ADIFField>();
+            var processedRecords = new ObservableCollection<ADIFRecord>();
+            var processedFields = new ObservableCollection<ADIFField>();
 
-            if (columns == null) return new List<ADIFRecord>();
+            if (columns == null) return new ObservableCollection<ADIFRecord>();
 
             foreach (var record in records)
             {
-                processedFields = new List<ADIFField>();
+                processedFields = new ObservableCollection<ADIFField>();
 
                 foreach (var column in columns.Fields)
                 {

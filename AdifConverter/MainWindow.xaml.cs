@@ -5,6 +5,8 @@ using AdifConverter.Views;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,17 +29,28 @@ namespace AdifConverter
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<ADIFRecord> Records { get; set; }
+        public ObservableCollection<ADIFRecord> Records { get; set; }
 
         public bool ManualCommit = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            Records = new List<ADIFRecord>();
+            Records = new ObservableCollection<ADIFRecord>();                        
+
             dataGridAdif.Visibility = Visibility.Hidden;
             DisableSave();
             lblStatusBar.Text = $"QSOs: {Records.Count}";
+
+            DataContext = this;
+
+            var binding = new Binding("Records")
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            dataGridAdif.SetBinding(DataGrid.ItemsSourceProperty, binding);
         }
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
@@ -53,9 +66,9 @@ namespace AdifConverter
                 dataGridAdif.Visibility = Visibility.Hidden;
 
                 var adifRecordController = new ADIFRecordController();
-                Records = adifRecordController.ReadRecords(openFileDialog.FileName);
-                
-                if(!Records.Any()) return;
+                Records = adifRecordController.ReadRecords(openFileDialog.FileName);                
+
+                if (!Records.Any()) return;
 
                 var gridController = new DataGridController();  
                 gridController.SetupGrid(dataGridAdif, Records);
@@ -143,7 +156,7 @@ namespace AdifConverter
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             var aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }

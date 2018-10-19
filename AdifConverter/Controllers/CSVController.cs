@@ -1,6 +1,7 @@
 ﻿using AdifConverter.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace AdifConverter.Controllers
             FilePath = filePath;
         }
 
-        public void SaveCsv(List<ADIFRecord> adifRecords)
+        public void SaveCsv(ObservableCollection<ADIFRecord> adifRecords)
         {            
             if (!adifRecords.Any()) return;
 
@@ -50,13 +51,13 @@ namespace AdifConverter.Controllers
 
         }
 
-        public void SavePlanillaCsv(List<ADIFRecord> adifRecords)
+        public void SavePlanillaCsv(ObservableCollection<ADIFRecord> adifRecords)
         {            
             if (!adifRecords.Any()) return;
 
             var fieldsToInclude = new List<string>(){ "QTR OA", "INDICATIVO", "REP. ENTREGADO", "REP. RECIBIDO"};
 
-            List<ADIFRecord> planillaRecords = new List<ADIFRecord>();
+            var planillaRecords = new List<ADIFRecord>();
 
             int recordCounter = 1;
 

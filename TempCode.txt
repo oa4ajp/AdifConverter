@@ -32,5 +32,40 @@
            IsReadOnly="False"
            BeginningEdit="DataGridAdif_BeginningEdit"
            RowEditEnding="DataGridAdif_RowEditEnding"                  
-           CanUserAddRows="False">						
-		
+           CanUserAddRows="False">	
+
+Records.Add(new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "TestName"} } });
+Test add record:
+****************
+Records.Add(new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "CALL", Value="OA4AJP" } } });
+
+            ItemsSource="{  Binding Path=Records, 
+                            Mode=TwoWay, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            IsAsync=True }" 
+
+
+
+            ItemsSource="{ Binding Records }" 
+
+            /*
+            var binding = new Binding("Records")
+            {
+                Source = this,
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            */
+
+            var binding = new Binding("Records")
+            {
+                //Source = Records,
+                //Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+UpdateData:
+***********		   
+//Records[1].Fields[1].Value = "12345";
+Records[1] = new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "CALL", Value = "OA4AJP" } } };
+

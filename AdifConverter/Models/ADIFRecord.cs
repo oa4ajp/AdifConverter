@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,10 @@ namespace AdifConverter.Models
     {
         public ADIFRecord()
         {
-            Fields = new List<ADIFField>();
+            Fields = new ObservableCollection<ADIFField>();
         }
 
-        public List<ADIFField> Fields { get; set; }
+        public ObservableCollection<ADIFField> Fields { get; set; }
 
         public virtual object Clone()
         {

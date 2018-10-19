@@ -1,9 +1,6 @@
 ﻿using AdifConverter.Models;
-using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,8 +9,8 @@ namespace AdifConverter.Controllers
 {
     public class DataGridController
     {
-        public void SetupGrid(DataGrid dataGrid, List<ADIFRecord> records)
-        {
+        public void SetupGrid(DataGrid dataGrid, ObservableCollection<ADIFRecord> records)
+        {            
             var columns = records.First()
                 .Fields
                 .Select((x, i) => new { Name = x.Name, Index = i })
@@ -27,9 +24,9 @@ namespace AdifConverter.Controllers
             }
 
             ApplyStyles(dataGrid);
-
             dataGrid.Columns[0].IsReadOnly = true;
-            dataGrid.ItemsSource = records;
+            //Rebind Grid.
+            dataGrid.GetBindingExpression(DataGrid.ItemsSourceProperty).UpdateTarget();
         }
 
         public void ApplyStyles(DataGrid dataGrid)
