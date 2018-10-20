@@ -88,6 +88,7 @@ namespace AdifConverter.ViewModels
                 var message = ae.Message;
                 MessageBox.Show($"{message} on row {adifRecords.Count + 1}.", Properties.Resources.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
                 Records = new ObservableCollection<ADIFRecord>();
+                return;
             }
             finally
             {

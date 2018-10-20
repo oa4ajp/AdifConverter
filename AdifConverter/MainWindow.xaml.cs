@@ -72,7 +72,12 @@ namespace AdifConverter
 
                 ADIFRecordViewModel.ReadRecords(openFileDialog.FileName);
 
-                if (!ADIFRecordViewModel.Records.Any()) return;
+                if (!ADIFRecordViewModel.Records.Any())
+                {
+                    this.Title = $"{Properties.Resources.ApplicationName}";
+                    lblStatusBar.Text = $"QSOs: {ADIFRecordViewModel.Records.Count}";
+                    return;
+                }                
 
                 ADIFRecordViewModel.SetupGrid(dataGridAdif);
 
