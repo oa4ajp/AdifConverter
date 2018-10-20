@@ -98,22 +98,13 @@ JTDX 18.1.0.92
 (Windows version
 
 System.Windows.Data Error: 17 : Cannot get 'Item[]' value (type 'ADIFField') from 'Fields' (type 'List`1'). BindingExpression:Path=Fields[24].Value; DataItem='ADIFRecord' (HashCode=15642830); target element is 'TextBlock' (Name=''); target property is 'Text' (type 'String') ArgumentOutOfRangeException:'System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values.
+This error appear when the number of columns doesn't match.
 
 El campo Comment, es dinámico o el tag aperece sólo cuando se usa.
-La idea es que todos los recors tengan los mismos campos o cantidad de campos.
 
 El dispose de los reader está liberando correctamente la memoria con el Garbage Collector.
 
 El exportador del csv incluye los cambios hechos en la grilla.
-
-call => index=10, Value N7BT
-
-e.EditingElement contine el valor modificado.		   
-CaretIndex = 7.
-CellChanged
-PropertyChanged
-
-Poner un icono con contraste por que no se ve en la barra de tareas del windows 10.
 			
 Tener en cuenta por ejemplo agregar una fila nueva por code behind y que se refleje (--OK--)
 
@@ -121,13 +112,6 @@ poner un boton o menu option de prueba para agregar un registro en la grilla y v
 					           
 cON EL OBSERVABLE COLLECTION SI SE ESTÁN AGREGANDO FILAS EN LA GRILLA SI se agrega un elemento adicional en Records.							
 
-            var binding = new Binding("Records")
-            {
-                Source = this,
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-			
 When you use the observable collection, to edit a record you vae to assign a new AdifRecord to the Obersvable collection.
 It doesn't work if you just update the porperties of a Adiffield.
 			
@@ -135,6 +119,5 @@ Apply MVVM Pattern (--OK--)
 
 Install-Package SimpleInjector -Version 4.3.0
 
-Si el separator se ve mas ancho ponerlo en una grid cell man alto.
-
 Con la grilla los separator se deforman, usar stack Panel.
+

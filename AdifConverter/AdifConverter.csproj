@@ -64,7 +64,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icons8-Ios7-Industry-Radio-Tower.ico</ApplicationIcon>
+    <ApplicationIcon>BlueIconAntenna.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -175,8 +175,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons8-Ios7-Industry-Radio-Tower.ico" />
+    <Resource Include="BlueIconAntenna.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
