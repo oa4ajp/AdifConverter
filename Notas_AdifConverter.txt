@@ -114,8 +114,6 @@ CellChanged
 PropertyChanged
 
 Poner un icono con contraste por que no se ve en la barra de tareas del windows 10.
-
-Colocar separadores horizontales como en los menus para el About Adif converter.
 			
 Tener en cuenta por ejemplo agregar una fila nueva por code behind y que se refleje (--OK--)
 
@@ -133,4 +131,10 @@ cON EL OBSERVABLE COLLECTION SI SE ESTÁN AGREGANDO FILAS EN LA GRILLA SI se agre
 When you use the observable collection, to edit a record you vae to assign a new AdifRecord to the Obersvable collection.
 It doesn't work if you just update the porperties of a Adiffield.
 			
-							
+Apply MVVM Pattern (--OK--)			
+
+Install-Package SimpleInjector -Version 4.3.0
+
+Si el separator se ve mas ancho ponerlo en una grid cell man alto.
+
+Con la grilla los separator se deforman, usar stack Panel.

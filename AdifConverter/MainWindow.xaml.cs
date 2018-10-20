@@ -1,5 +1,5 @@
-﻿using AdifConverter.ADIF;
-using AdifConverter.Controllers;
+﻿
+using AdifConverter.Services;
 using AdifConverter.Models;
 using AdifConverter.ViewModels;
 using AdifConverter.Views;
@@ -34,12 +34,12 @@ namespace AdifConverter
 
         public bool ManualCommit = false;
 
-        public MainWindow()
+        public MainWindow(ADIFRecordViewModel adifRecordViewModel)
         {
-            InitializeComponent();
+            InitializeComponent();            
 
-            ADIFRecordViewModel = new ADIFRecordViewModel();
-                       
+            ADIFRecordViewModel = adifRecordViewModel;
+
             dataGridAdif.Visibility = Visibility.Hidden;
             DisableSave();
             lblStatusBar.Text = $"QSOs: {ADIFRecordViewModel.Records.Count}";
@@ -74,8 +74,7 @@ namespace AdifConverter
 
                 if (!ADIFRecordViewModel.Records.Any()) return;
 
-                var gridController = new DataGridController();  
-                gridController.SetupGrid(dataGridAdif, ADIFRecordViewModel.Records);
+                ADIFRecordViewModel.SetupGrid(dataGridAdif);
 
                 dataGridAdif.Visibility = Visibility.Visible;
                 EnableSave();
@@ -85,48 +84,6 @@ namespace AdifConverter
 
                 openFileDialog = null;
             }
-        }
-
-        private void MenuSaveCSV_Click(object sender, RoutedEventArgs e)
-        {
-            if (!ADIFRecordViewModel.Records.Any()) {
-                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
-                return;
-            }
-
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "Csv file (*.csv)|*.csv"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                var csvController = new CSVController(saveFileDialog.FileName);
-                csvController.SaveCsv(ADIFRecordViewModel.Records);                
-                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
-            }
-            saveFileDialog = null;
-        }
-
-        private void MenuSavePlanillaCSV_Click(object sender, RoutedEventArgs e)
-        {
-            if (!ADIFRecordViewModel.Records.Any())
-            {
-                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
-                return;
-            }
-
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "Csv file (*.csv)|*.csv"
-            };
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                var csvController = new CSVController(saveFileDialog.FileName);
-                csvController.SavePlanillaCsv(ADIFRecordViewModel.Records);
-                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
-            }
-            saveFileDialog = null;
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
@@ -146,13 +103,9 @@ namespace AdifConverter
             savePlanillaOA.IsEnabled = false;
         }
 
-        private void DataGridAdif_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-        }
+        private void DataGridAdif_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) { }
 
-        private void DataGridAdif_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-        }
+        private void DataGridAdif_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e) { }
 
         private void DataGridAdif_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {

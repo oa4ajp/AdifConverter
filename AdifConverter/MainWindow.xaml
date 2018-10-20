@@ -25,8 +25,8 @@
         <Menu Grid.Row="0">
             <MenuItem Header="_File" Height="20px">
                 <MenuItem Header="_Open" Click="MenuOpen_Click" />
-                <MenuItem Header="_Save CSV" Name="saveCsv" Click="MenuSaveCSV_Click" />
-                <MenuItem Header="Save Planilla OA" Name="savePlanillaOA" Click="MenuSavePlanillaCSV_Click" />
+                <MenuItem Header="_Save CSV" Name="saveCsv" Command="{Binding Path=SaveCsvCommand}" />
+                <MenuItem Header="Save Planilla OA" Name="savePlanillaOA" Command="{Binding Path=SavePlanillaCsvCommand}" />
                 <Separator />
                 <MenuItem Header="_Exit" Click="MenuExit_Click"/>
             </MenuItem>

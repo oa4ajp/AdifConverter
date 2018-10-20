@@ -7,18 +7,14 @@
         xmlns:resx="clr-namespace:AdifConverter.Properties"  
         mc:Ignorable="d"
         Title="{Binding Source={x:Static resx:Resources.ApplicationName}, StringFormat=About {0}}" 
-        Height="300" 
+        Height="190" 
         Width="300"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20px" />
-            <RowDefinition Height="20px" />
-            <RowDefinition Height="25px" />
-        </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Row="0" Margin="0" FontWeight="Bold"             
+    
+    <StackPanel>
+
+        <TextBlock Margin="10,5,10,5" FontWeight="Bold"             
             HorizontalAlignment="Center" 
             VerticalAlignment="Center">
 
@@ -31,9 +27,20 @@
 
         </TextBlock>
 
-        <Separator Height="1" Margin="10,1,10,1"  Grid.Row="1" />
-        
+        <Separator Height="1px" Margin="10,1,10,1" />
+        <TextBlock Margin="10,5,10,5" HorizontalAlignment="Center">
+            Copyright ©  2018, Alfredo Mendiola.
+        </TextBlock>
+        <TextBlock Margin="10,5,10,5" HorizontalAlignment="Center">
+            Website: http://hamradioperu.co.nf
+        </TextBlock>
+        <TextBlock Margin="10,5,10,5" HorizontalAlignment="Center">
+            Email: oa4ajp@gmail.com
+        </TextBlock>
+        <Separator Height="1px" Margin="10,1,10,1" />
+        <Button Width="100px" HorizontalAlignment="Right" Margin="10,10,10,5" Click="OkButton_Click">
+            OK
+        </Button>
+        </StackPanel>
 
-    </Grid>
-    
 </Window>

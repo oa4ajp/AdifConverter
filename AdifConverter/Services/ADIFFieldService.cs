@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace AdifConverter.ADIF
+namespace AdifConverter.Services
 {
-    public class ADIFFieldController
+    public class ADIFFieldService : IADIFFieldService
     {
         public ADIFField ParseField(StreamReader sr)
         {
@@ -132,7 +132,7 @@ namespace AdifConverter.ADIF
                             {
                                 fieldlen = Int32.Parse(length.ToString());
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {                                
                                 throw new AdifException($"Can't parse field length {length} .");
                             }

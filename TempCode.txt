@@ -73,4 +73,19 @@ Con el INotifyPropertyChanged se actulizó la grilla al manipular las propiedade
 ***********************************************************************************************
 Records[1].Fields[1].Value = "12345";
 
+Manual:
+*******
+usar IE
+manage auths =>
+ History Tab
+ Notes Tab
+ Exception Tabs
+ 
+ 
+
+
+
+
+
+
 

@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace AdifConverter.Controllers
+namespace AdifConverter.Services
 {
-    public class DataGridController
+    public class DataGridService : IDataGridService
     {
         public void SetupGrid(DataGrid dataGrid, ObservableCollection<ADIFRecord> records)
         {            

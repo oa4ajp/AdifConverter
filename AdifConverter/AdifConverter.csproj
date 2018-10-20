@@ -72,7 +72,13 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>AdifConverter.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.3.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.3.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -93,6 +99,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Services\IADIFFieldService.cs" />
+    <Compile Include="Services\ICSVService.cs" />
+    <Compile Include="Services\IDataGridService.cs" />
     <Compile Include="ViewModels\ADIFRecordViewModel.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
@@ -101,9 +112,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Controllers\ADIFFieldController.cs" />
-    <Compile Include="Controllers\CSVController.cs" />
-    <Compile Include="Controllers\DataGridController.cs" />
+    <Compile Include="Services\ADIFFieldService.cs" />
+    <Compile Include="Services\CSVService.cs" />
+    <Compile Include="Services\DataGridService.cs" />
     <Compile Include="Exceptions\AdifException.cs" />
     <Compile Include="Models\ADIFField.cs" />
     <Compile Include="App.xaml.cs">
@@ -139,6 +150,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest">
       <SubType>Designer</SubType>
     </None>
@@ -165,5 +177,6 @@
   <ItemGroup>
     <Resource Include="Icons8-Ios7-Industry-Radio-Tower.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

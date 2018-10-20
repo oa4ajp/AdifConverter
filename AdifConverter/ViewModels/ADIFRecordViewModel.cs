@@ -1,4 +1,4 @@
-﻿using AdifConverter.ADIF;
+﻿using AdifConverter.Services;
 using AdifConverter.Exceptions;
 using AdifConverter.Models;
 using System;
@@ -9,12 +9,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using AdifConverter.Commands;
+using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace AdifConverter.ViewModels
 {
     public class ADIFRecordViewModel
     {
+        private ICSVService _csvService;
+        private IDataGridService _dataGridService;
+        private IADIFFieldService _adifFieldService;
+
+        private readonly DelegateCommand _saveCsvCommand;
+        public ICommand SaveCsvCommand => _saveCsvCommand;
+
+        private readonly DelegateCommand _savePlanillaCsvCommand;
+        public ICommand SavePlanillaCsvCommand => _savePlanillaCsvCommand;
+
         public ObservableCollection<ADIFRecord> Records { get; set; } = new ObservableCollection<ADIFRecord>();
+
+        public ADIFRecordViewModel(ICSVService csvService, IDataGridService dataGridService, IADIFFieldService adifFieldService)
+        {
+            _csvService = csvService;
+            _dataGridService = dataGridService;
+            _adifFieldService = adifFieldService;
+
+            _saveCsvCommand = new DelegateCommand(OnSaveCsv);
+            _savePlanillaCsvCommand = new DelegateCommand(OnSavePlanillaCsv);            
+        }
 
         public void ReadRecords(string fileName)
         {
@@ -33,15 +57,13 @@ namespace AdifConverter.ViewModels
 
             StreamReader streamReader = new StreamReader(mStrm);
 
-            var fieldController = new ADIFFieldController();
-
             var record = new ADIFRecord() { Fields = new ObservableCollection<ADIFField>() { new ADIFField() { Name = "Line", Value = $"{adifRecords.Count + 1}" } } };
 
             try
             {
                 for (; ; )
                 {
-                    var field = fieldController.ParseField(streamReader);
+                    var field = _adifFieldService.ParseField(streamReader);
 
                     if (field == null)
                         break;
@@ -122,6 +144,62 @@ namespace AdifConverter.ViewModels
 
             return processedRecords;
 
+        }
+
+        public void SetupGrid(DataGrid dataGrid)
+        {
+            _dataGridService.SetupGrid(dataGrid, Records);
+        }
+
+        public void ApplyStyles(DataGrid dataGrid)
+        {
+            _dataGridService.ApplyStyles(dataGrid);
+        }
+
+        public ADIFField ParseField(StreamReader sr)
+        {
+            return _adifFieldService.ParseField(sr);
+        }
+
+        private void OnSaveCsv(object commandParameter)
+        {
+            if (!Records.Any())
+            {
+                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Csv file (*.csv)|*.csv"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {                
+                _csvService.SaveCsv(Records, saveFileDialog.FileName);
+                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
+            }
+            saveFileDialog = null;
+        }
+
+        private void OnSavePlanillaCsv(object commandParameter)
+        {
+            if (!Records.Any())
+            {
+                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Csv file (*.csv)|*.csv"
+            };
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                _csvService.SavePlanillaCsv(Records, saveFileDialog.FileName);
+                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
+            }
+            saveFileDialog = null;
         }
 
     }

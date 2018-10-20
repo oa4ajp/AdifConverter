@@ -7,20 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdifConverter.Controllers
+namespace AdifConverter.Services
 {
-    public class CSVController
+    public class CSVService : ICSVService
     {
         private readonly string _delimiter = ";";
 
-        private string FilePath { get; set; }
+        public CSVService() { }
 
-        public CSVController(string filePath)
-        {
-            FilePath = filePath;
-        }
-
-        public void SaveCsv(ObservableCollection<ADIFRecord> adifRecords)
+        public void SaveCsv(ObservableCollection<ADIFRecord> adifRecords, string filePath)
         {            
             if (!adifRecords.Any()) return;
 
@@ -40,7 +35,7 @@ namespace AdifConverter.Controllers
                 stringBuilderList.Add(csvRow);
             }
             
-            using (var w = new StreamWriter(FilePath)) {
+            using (var w = new StreamWriter(filePath)) {
 
                 foreach (var sb in stringBuilderList)
                 {
@@ -51,7 +46,7 @@ namespace AdifConverter.Controllers
 
         }
 
-        public void SavePlanillaCsv(ObservableCollection<ADIFRecord> adifRecords)
+        public void SavePlanillaCsv(ObservableCollection<ADIFRecord> adifRecords, string filePath)
         {            
             if (!adifRecords.Any()) return;
 
@@ -152,7 +147,7 @@ namespace AdifConverter.Controllers
                 stringBuilderList.Add(csvRow);
             }
 
-            using (var w = new StreamWriter(FilePath))
+            using (var w = new StreamWriter(filePath))
             {
                 foreach (var sb in stringBuilderList)
                 {
