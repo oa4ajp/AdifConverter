@@ -23,6 +23,7 @@ namespace AdifConverter
 
             // Register your types, for instance:
             container.Register<ICSVService, CSVService>();
+            container.Register<IOpenXmlService, OpenXmlService>();            
             container.Register<IDataGridService, DataGridService>();
             container.Register<IADIFFieldService, ADIFFieldService>();
 

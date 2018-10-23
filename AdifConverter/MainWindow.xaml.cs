@@ -99,12 +99,14 @@ namespace AdifConverter
         private void EnableSave()
         {
             saveCsv.IsEnabled = true;
+            saveXlsx.IsEnabled = true;
             savePlanillaOA.IsEnabled = true;
         }
 
         private void DisableSave()
         {
             saveCsv.IsEnabled = false;
+            saveXlsx.IsEnabled = false;
             savePlanillaOA.IsEnabled = false;
         }
 

@@ -19,25 +19,31 @@ namespace AdifConverter.ViewModels
     public class ADIFRecordViewModel
     {
         private ICSVService _csvService;
+        private IOpenXmlService _openXmlService;
         private IDataGridService _dataGridService;
         private IADIFFieldService _adifFieldService;
 
         private readonly DelegateCommand _saveCsvCommand;
         public ICommand SaveCsvCommand => _saveCsvCommand;
 
+        private readonly DelegateCommand _saveXlsxCommand;
+        public ICommand SaveXlsxCommand => _saveXlsxCommand;
+
         private readonly DelegateCommand _savePlanillaCsvCommand;
         public ICommand SavePlanillaCsvCommand => _savePlanillaCsvCommand;
 
         public ObservableCollection<ADIFRecord> Records { get; set; } = new ObservableCollection<ADIFRecord>();
 
-        public ADIFRecordViewModel(ICSVService csvService, IDataGridService dataGridService, IADIFFieldService adifFieldService)
+        public ADIFRecordViewModel(ICSVService csvService, IOpenXmlService openXmlService, IDataGridService dataGridService, IADIFFieldService adifFieldService)
         {
             _csvService = csvService;
+            _openXmlService = openXmlService;
             _dataGridService = dataGridService;
             _adifFieldService = adifFieldService;
 
             _saveCsvCommand = new DelegateCommand(OnSaveCsv);
-            _savePlanillaCsvCommand = new DelegateCommand(OnSavePlanillaCsv);            
+            _saveXlsxCommand = new DelegateCommand(OnSaveXlsx);
+            _savePlanillaCsvCommand = new DelegateCommand(OnSavePlanillaCsv);             
         }
 
         public void ReadRecords(string fileName)
@@ -178,6 +184,27 @@ namespace AdifConverter.ViewModels
             if (saveFileDialog.ShowDialog() == true)
             {                
                 _csvService.SaveCsv(Records, saveFileDialog.FileName);
+                MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
+            }
+            saveFileDialog = null;
+        }
+
+        private void OnSaveXlsx(object commandParameter)
+        {
+            if (!Records.Any())
+            {
+                MessageBox.Show("No records found", Properties.Resources.ApplicationName);
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Xlsx file (*.xlsx)|*.xlsx"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                _openXmlService.GenerateXlsxFile(saveFileDialog.FileName);
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
             saveFileDialog = null;
