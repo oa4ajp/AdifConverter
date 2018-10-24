@@ -204,7 +204,7 @@ namespace AdifConverter.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                _openXmlService.GenerateXlsxFile(saveFileDialog.FileName);
+                _openXmlService.GenerateXlsxFile(Records, saveFileDialog.FileName, saveFileDialog.SafeFileName);
                 MessageBox.Show($"{saveFileDialog.SafeFileName} saved.", Properties.Resources.ApplicationName);
             }
             saveFileDialog = null;
