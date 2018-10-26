@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdifConverter.Models;
+using AdifConverter.Strategy;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -14,6 +15,26 @@ namespace AdifConverter.Services
 {
     public class OpenXmlService : IOpenXmlService
     {
+        private IOpenXmlRowBuilderStrategy openXmlRowBuilderStrategy = null;
+
+        private IOpenXmlRowBuilderStrategy GetOpenXmlRowBuilderOption(RowType rowType)
+        {
+            IOpenXmlRowBuilderStrategy openXmlRowBuilderStrategy = null;
+
+            switch (rowType)
+            {
+                case RowType.Header:
+                    openXmlRowBuilderStrategy = new OpenXmlRowHeaderBuilder();
+                    break;
+                case RowType.Data:
+                    openXmlRowBuilderStrategy = new OpenXmlRowDataBuilder();
+                    break;
+                default:
+                    break;
+            }
+            return openXmlRowBuilderStrategy;
+        }
+
         public void GenerateXlsxFile(ObservableCollection<ADIFRecord> adifRecords, string filePath, string fileName)
         {
             string[] separatingChar = { "." };
@@ -67,42 +88,8 @@ namespace AdifConverter.Services
 
         private void BuildRow(ADIFRecord adifRecord, Row row, RowType rowtype)
         {
-            int fieldCounter = 1;
-
-            foreach (var adifField in adifRecord.Fields)
-            {
-                if (fieldCounter > 1) {
-
-                    if (rowtype == RowType.Header)
-                    {
-                        row.Append(ConstructHeaderCell(adifField.Name, CellValues.String));
-                    }
-                    else
-                    {
-                        row.Append(ConstructDataCell(adifField.Value, CellValues.String));
-                    }
-                }
-                
-                fieldCounter++;
-            }
-        }
-
-        private Cell ConstructDataCell(string value, CellValues dataType)
-        {
-            return new Cell()
-            {
-                CellValue = new CellValue(value),
-                DataType = new EnumValue<CellValues>(dataType)
-            };
-        }
-
-        private Cell ConstructHeaderCell(string name, CellValues dataType)
-        {
-            return new Cell()
-            {
-                CellValue = new CellValue(name),
-                DataType = new EnumValue<CellValues>(dataType)
-            };
+            openXmlRowBuilderStrategy = GetOpenXmlRowBuilderOption(rowtype);
+            openXmlRowBuilderStrategy.BuildRow(adifRecord, row, rowtype);          
         }
 
     }

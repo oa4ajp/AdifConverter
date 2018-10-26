@@ -166,7 +166,11 @@
     <Compile Include="Services\ICSVService.cs" />
     <Compile Include="Services\IDataGridService.cs" />
     <Compile Include="Services\IOpenXmlService.cs" />
+    <Compile Include="Strategy\IOpenXmlRowBuilderStrategy.cs" />
     <Compile Include="Services\OpenXmlService.cs" />
+    <Compile Include="Strategy\OpenXmlRowBuilder.cs" />
+    <Compile Include="Strategy\OpenXmlRowDataBuilder.cs" />
+    <Compile Include="Strategy\OpenXmlRowHeaderBuilder.cs" />
     <Compile Include="ViewModels\ADIFRecordViewModel.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
