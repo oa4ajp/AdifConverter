@@ -49,7 +49,8 @@ namespace AdifConverter
             var binding = new Binding("Records")
             {
                 Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                IsAsync = true                
             };
 
             dataGridAdif.SetBinding(DataGrid.ItemsSourceProperty, binding);

@@ -15,14 +15,13 @@
     <Window.Resources>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#F0F0F0">
         <Grid.RowDefinitions>
             <RowDefinition Height="21px" />
             <RowDefinition Height="*" />
             <RowDefinition Height="25px" />
         </Grid.RowDefinitions>
-
-        <Menu Grid.Row="0">
+        <Menu Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1" Background="#F0F0F0">
             <MenuItem Header="_File" Height="20px">
                 <MenuItem Header="_Open" Click="MenuOpen_Click" />
                 <MenuItem Header="_Save CSV" Name="saveCsv" Command="{Binding Path=SaveCsvCommand}" />
@@ -36,7 +35,7 @@
             </MenuItem>
         </Menu>
 
-        <DataGrid Grid.Row="1"
+        <DataGrid Grid.Row="1" 
             Name="dataGridAdif" 
             AutoGenerateColumns="false"                   
             IsReadOnly="False"
@@ -45,8 +44,14 @@
             CellEditEnding="DataGridAdif_CellEditEnding"
             CanUserAddRows="False"
             EnableColumnVirtualization="True"
-            EnableRowVirtualization = "True">
-            
+            EnableRowVirtualization = "True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling"
+            VirtualizingPanel.ScrollUnit="Item"
+            ScrollViewer.CanContentScroll="True"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}" x:Key="LineNumberColumnStyle">
                     <Setter Property="Background" Value="#F0F0F0"/>
@@ -69,7 +74,7 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0">
             <StatusBarItem>
                 <TextBlock Name="lblStatusBar" />
             </StatusBarItem>

@@ -31,6 +31,7 @@ namespace AdifConverter
             container.Register<MainWindow>();
             container.Register<ADIFRecordViewModel>();
 
+            //It call the Mainwindow Constructor
             container.Verify();
 
             return container;
@@ -47,6 +48,7 @@ namespace AdifConverter
             catch (Exception ex)
             {
                 //Log the exception and exit
+                throw;
             }
         }
     }

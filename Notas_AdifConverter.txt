@@ -126,3 +126,10 @@ Install-Package DocumentFormat.OpenXml -Version 2.8.1
 a la hora del hacer el Save debería parecer el nombre del archivo original sin la extensión .adif.
 
 Deployar nueva version adif converter
+
+O0ptimizar grid response, cpuusage is high while scrolling grid.
+No probar el grid response con el VS2017 ejecutando por el el proceso dle xaml designer consume mucho cpu.
+Include new openxml dependencies on the setup.
+BorderThickness: Left,Top,Right,Bottom just set the one you want empty to 0.
+
+
