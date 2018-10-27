@@ -76,7 +76,7 @@ namespace AdifConverter.ViewModels
 
                     if ("EOR".Equals(field.Name.ToUpper()))
                     {
-                        var tempRecord = record.Clone() as ADIFRecord;
+                        var tempRecord = record.DeepCopy();
 
                         adifRecords.Add(tempRecord);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AdifConverter.Models
 {
-    public class ADIFRecord : ICloneable
+    public class ADIFRecord
     {
         public ADIFRecord()
         {
@@ -16,13 +16,16 @@ namespace AdifConverter.Models
 
         public ObservableCollection<ADIFField> Fields { get; set; }
 
-        public virtual object Clone()
+        public ADIFRecord ShallowCopy()
         {
-            return new ADIFRecord()
-            {
-                Fields = Fields
-            };
+            return (ADIFRecord)this.MemberwiseClone();
         }
 
+        public ADIFRecord DeepCopy()
+        {
+            var other = (ADIFRecord) this.MemberwiseClone();
+            other.Fields = Fields;
+            return other;
+        }
     }
 }

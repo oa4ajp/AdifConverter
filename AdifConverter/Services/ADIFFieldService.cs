@@ -15,8 +15,8 @@ namespace AdifConverter.Services
             StringBuilder type = new StringBuilder();
             StringBuilder value = new StringBuilder();
 
-            int state = 0;
-            int fieldlen = 0;
+            byte state = 0;
+            short fieldlen = 0; //It could be negative due to the --fieldlen
 
             /*
              * FSM parser.
@@ -130,7 +130,7 @@ namespace AdifConverter.Services
                         {
                             try
                             {
-                                fieldlen = Int32.Parse(length.ToString());
+                                fieldlen = Int16.Parse(length.ToString());
                             }
                             catch (Exception)
                             {                                
@@ -150,11 +150,13 @@ namespace AdifConverter.Services
                             value.Append((char)c);
                         }
                         else
-                        {                            
+                        {
+                            var tempLength = length.ToString();
+
                             return new ADIFField()
                             {
                                 Name = name.ToString(),
-                                Length = length.ToString(),
+                                Length = Convert.ToUInt16( (string.IsNullOrEmpty(tempLength) ? "0" : tempLength) ),
                                 Type = type.ToString(),
                                 Value = value.ToString(),
                             };               

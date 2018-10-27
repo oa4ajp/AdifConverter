@@ -21,7 +21,7 @@ namespace AdifConverter.Models
          */
 
         private string _name;
-        private string _length;
+        private ushort _length;
         private string _Type;
         private string _value;
 
@@ -39,7 +39,7 @@ namespace AdifConverter.Models
                 RaisePropertyChanged("Name");
             }
         } 
-        public string Length
+        public ushort Length
         {
             get { return _length; }
             set
