@@ -3,6 +3,7 @@ using System.Windows;
 using SimpleInjector;
 using AdifConverter.ViewModels;
 using AdifConverter.Services;
+using AdifConverter.Services.Interfaces;
 
 namespace AdifConverter
 {
@@ -25,11 +26,14 @@ namespace AdifConverter
             container.Register<ICSVService, CSVService>();
             container.Register<IOpenXmlService, OpenXmlService>();            
             container.Register<IDataGridService, DataGridService>();
+            container.Register<IADIFRecordService, ADIFRecordService>();            
             container.Register<IADIFFieldService, ADIFFieldService>();
+            container.Register<IFileService, FileService>();
 
             // Register your windows and view models:
             container.Register<MainWindow>();
             container.Register<ADIFRecordViewModel>();
+            container.Register<ADIFRecordService>();
 
             //It call the Mainwindow Constructor
             container.Verify();

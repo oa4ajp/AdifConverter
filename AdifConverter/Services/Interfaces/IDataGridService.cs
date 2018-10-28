@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace AdifConverter.Services
+namespace AdifConverter.Services.Interfaces
 {
     public interface IDataGridService
     {

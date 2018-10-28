@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using static AdifConverter.Enums.Enums;
+using AdifConverter.Services.Interfaces;
 
 namespace AdifConverter.Services
 {
@@ -37,16 +38,13 @@ namespace AdifConverter.Services
 
         public void GenerateXlsxFile(ObservableCollection<ADIFRecord> adifRecords, string filePath, string fileName)
         {
-            string[] separatingChar = { "." };
             string sheetName = string.Empty;
 
             if (!adifRecords.Any()) return;
 
-            var firstRecord = adifRecords[0];
-            var sheetNameArray = fileName.Split(separatingChar, System.StringSplitOptions.RemoveEmptyEntries);
+            var firstRecord = adifRecords[0];  
 
-            if (sheetNameArray.Any())
-                sheetName = sheetNameArray[0];
+            sheetName = fileName;
 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {

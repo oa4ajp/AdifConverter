@@ -13,5 +13,12 @@ namespace AdifConverter.Enums
             Header,
             Data
         }
+
+        public enum FileType
+        {
+            Csv,
+            PlanillaCsv,
+            Xlsx
+        }
     }
 }

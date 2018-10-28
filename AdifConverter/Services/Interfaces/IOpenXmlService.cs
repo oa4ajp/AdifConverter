@@ -1,12 +1,6 @@
 ﻿using AdifConverter.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AdifConverter.Services
+using System.Collections.ObjectModel;namespace AdifConverter.Services.Interfaces
 {
     public interface IOpenXmlService
     {

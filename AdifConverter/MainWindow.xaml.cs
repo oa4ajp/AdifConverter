@@ -81,6 +81,8 @@ namespace AdifConverter
                 }                
 
                 ADIFRecordViewModel.SetupGrid(dataGridAdif);
+                ADIFRecordViewModel.MainGrid = MainGrid;
+                ADIFRecordViewModel.CurrentOpenedFileName = openFileDialog.SafeFileName;
 
                 dataGridAdif.Visibility = Visibility.Visible;
                 EnableSave();
@@ -130,5 +132,6 @@ namespace AdifConverter
             var aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AdifConverter.Exceptions;
 using AdifConverter.Models;
+using AdifConverter.Services.Interfaces;
 using System;
 using System.IO;
 using System.Text;

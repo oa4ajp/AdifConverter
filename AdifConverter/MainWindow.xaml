@@ -15,7 +15,7 @@
     <Window.Resources>
     </Window.Resources>
 
-    <Grid Background="#F0F0F0">
+    <Grid Name="MainGrid" Background="#F0F0F0">
         <Grid.RowDefinitions>
             <RowDefinition Height="21px" />
             <RowDefinition Height="*" />

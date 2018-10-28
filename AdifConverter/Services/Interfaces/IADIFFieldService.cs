@@ -1,12 +1,8 @@
 ﻿using AdifConverter.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AdifConverter.Services
+namespace AdifConverter.Services.Interfaces
 {
     public interface IADIFFieldService
     {
