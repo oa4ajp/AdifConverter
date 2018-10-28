@@ -15,15 +15,17 @@ namespace AdifConverter.Services
 {
     public class FileService : IFileService
     {        
-        private ICSVService _csvService;
-        private IOpenXmlService _openXmlService;
-
         private IFileBuilderStrategy fileBuilderStrategy = null;
 
-        public FileService(ICSVService csvService, IOpenXmlService openXmlService)
+        private IFileBuilderStrategy _fileCsvBuilder;
+        private IFileBuilderStrategy _filePlanillaCsvBuilder;
+        private IFileBuilderStrategy _fileXlsxBuilder;
+
+        public FileService(IFileBuilderStrategy fileCsvBuilder, IFileBuilderStrategy filePlanillaCsvBuilder, IFileBuilderStrategy fileXlsxBuilder)
         {
-            _csvService = csvService;
-            _openXmlService = openXmlService;
+            _fileCsvBuilder = fileCsvBuilder;
+            _filePlanillaCsvBuilder = filePlanillaCsvBuilder;
+            _fileXlsxBuilder = fileXlsxBuilder;
         }
 
         private IFileBuilderStrategy GetFileBuilderOption(FileType fileType)
@@ -33,13 +35,13 @@ namespace AdifConverter.Services
             switch (fileType)
             {
                 case FileType.Csv:
-                    fileBuilderStrategy = new FileCsvBuilder(_csvService);
+                    fileBuilderStrategy = _fileCsvBuilder;
                     break;
                 case FileType.PlanillaCsv:
-                    fileBuilderStrategy = new FilePlanillaCsvBuilder(_csvService);
+                    fileBuilderStrategy = _filePlanillaCsvBuilder;
                     break;
                 case FileType.Xlsx:
-                    fileBuilderStrategy = new FileXlsxBuilder(_openXmlService);
+                    fileBuilderStrategy = _fileXlsxBuilder;
                     break;
                 default:
                     break;

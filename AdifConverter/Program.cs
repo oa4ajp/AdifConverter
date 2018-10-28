@@ -4,6 +4,7 @@ using SimpleInjector;
 using AdifConverter.ViewModels;
 using AdifConverter.Services;
 using AdifConverter.Services.Interfaces;
+using AdifConverter.Strategy;
 
 namespace AdifConverter
 {
@@ -30,10 +31,17 @@ namespace AdifConverter
             container.Register<IADIFFieldService, ADIFFieldService>();
             container.Register<IFileService, FileService>();
 
+            //Strategy Pattern
+            container.RegisterConditional<IFileBuilderStrategy, FileCsvBuilder>(WithParamName("fileCsvBuilder"));
+            container.RegisterConditional<IFileBuilderStrategy, FilePlanillaCsvBuilder>(WithParamName("filePlanillaCsvBuilder"));
+            container.RegisterConditional<IFileBuilderStrategy, FileXlsxBuilder>(WithParamName("fileXlsxBuilder"));
+
+            container.RegisterConditional<IOpenXmlRowBuilderStrategy, OpenXmlRowHeaderBuilder>(WithParamName("openXmlRowHeaderBuilder"));
+            container.RegisterConditional<IOpenXmlRowBuilderStrategy, OpenXmlRowDataBuilder>(WithParamName("openXmlRowDataBuilder"));
+            
             // Register your windows and view models:
             container.Register<MainWindow>();
             container.Register<ADIFRecordViewModel>();
-            container.Register<ADIFRecordService>();
 
             //It call the Mainwindow Constructor
             container.Verify();
@@ -41,6 +49,11 @@ namespace AdifConverter
             return container;
         }
 
+        // Helper method to compare against the Constructor's parameter name
+        private static Predicate<PredicateContext> WithParamName(string name)
+        {
+            return c => c.Consumer.Target.Name == name;
+        }
         private static void RunApplication(Container container)
         {
             try

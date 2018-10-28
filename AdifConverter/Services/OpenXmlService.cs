@@ -16,7 +16,16 @@ namespace AdifConverter.Services
 {
     public class OpenXmlService : IOpenXmlService
     {
-        private IOpenXmlRowBuilderStrategy openXmlRowBuilderStrategy = null;
+        private IOpenXmlRowBuilderStrategy openXmlRowBuilderStrategy;
+
+        private IOpenXmlRowBuilderStrategy _openXmlRowHeaderBuilder;
+        private IOpenXmlRowBuilderStrategy _openXmlRowDataBuilder;
+
+        public OpenXmlService(IOpenXmlRowBuilderStrategy openXmlRowHeaderBuilder, IOpenXmlRowBuilderStrategy openXmlRowDataBuilder)
+        {
+            _openXmlRowHeaderBuilder = openXmlRowHeaderBuilder;
+            _openXmlRowDataBuilder = openXmlRowDataBuilder;
+        }
 
         private IOpenXmlRowBuilderStrategy GetOpenXmlRowBuilderOption(RowType rowType)
         {
@@ -25,10 +34,10 @@ namespace AdifConverter.Services
             switch (rowType)
             {
                 case RowType.Header:
-                    openXmlRowBuilderStrategy = new OpenXmlRowHeaderBuilder();
+                    openXmlRowBuilderStrategy = _openXmlRowHeaderBuilder;
                     break;
                 case RowType.Data:
-                    openXmlRowBuilderStrategy = new OpenXmlRowDataBuilder();
+                    openXmlRowBuilderStrategy = _openXmlRowDataBuilder;
                     break;
                 default:
                     break;
