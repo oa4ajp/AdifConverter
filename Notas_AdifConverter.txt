@@ -129,4 +129,3 @@ No probar el grid response con el VS2017 ejecutando por el el proceso dle xaml d
 Include new openxml dependencies on the setup.
 BorderThickness: Left,Top,Right,Bottom just set the one you want empty to 0.
 https://blog.qmatteoq.com/the-mvvm-pattern-dependency-injection/   (Explanation about Register<T> without specifying an interface.)
-

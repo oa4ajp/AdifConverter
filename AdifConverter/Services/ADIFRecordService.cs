@@ -49,6 +49,7 @@ namespace AdifConverter.Services
 
                     if ("EOR".Equals(field.Name.ToUpper()))
                     {
+                        record.FieldsCounter = record.Fields.Count;
                         var tempRecord = record.DeepCopy();
 
                         adifRecords.Add(tempRecord);
@@ -75,7 +76,9 @@ namespace AdifConverter.Services
                 reader.Dispose();
             }
 
-            return ProcessRecords(adifRecords);            
+            var listHasDifferentFieldsCounterValues = adifRecords.Select(x => x.FieldsCounter).Distinct().Skip(1).Any();
+            return listHasDifferentFieldsCounterValues ? ProcessRecords(adifRecords) : adifRecords;
+         
         }
 
         public ObservableCollection<ADIFRecord> ProcessRecords(ObservableCollection<ADIFRecord> records)

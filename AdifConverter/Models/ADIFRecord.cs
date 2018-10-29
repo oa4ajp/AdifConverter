@@ -9,12 +9,14 @@ namespace AdifConverter.Models
 {
     public class ADIFRecord
     {
+        public ObservableCollection<ADIFField> Fields { get; set; }
+
+        public int FieldsCounter { get; set; }
+
         public ADIFRecord()
         {
             Fields = new ObservableCollection<ADIFField>();
         }
-
-        public ObservableCollection<ADIFField> Fields { get; set; }
 
         public ADIFRecord ShallowCopy()
         {
