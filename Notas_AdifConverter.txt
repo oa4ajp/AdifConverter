@@ -123,9 +123,9 @@ Con la grilla los separator se deforman, usar stack Panel.
 
 Install-Package DocumentFormat.OpenXml -Version 2.8.1
 
-Deployar nueva version adif converter
-
 No probar el grid response con el VS2017 ejecutando por el el proceso dle xaml designer consume mucho cpu.
 Include new openxml dependencies on the setup.
 BorderThickness: Left,Top,Right,Bottom just set the one you want empty to 0.
 https://blog.qmatteoq.com/the-mvvm-pattern-dependency-injection/   (Explanation about Register<T> without specifying an interface.)
+
+Deployed Version 1.0.2 20181029
