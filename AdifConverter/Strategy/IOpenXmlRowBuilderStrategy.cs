@@ -6,6 +6,6 @@ namespace AdifConverter.Strategy
 {
     public interface IOpenXmlRowBuilderStrategy
     {
-        void BuildRow(ADIFRecord adifRecord, Row row, RowType rowtype);
+        void AppendRow(Row row, ADIFField field);
     }
 }

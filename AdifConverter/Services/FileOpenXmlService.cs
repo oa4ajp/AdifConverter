@@ -112,8 +112,19 @@ namespace AdifConverter.Services
 
         private void BuildRow(ADIFRecord adifRecord, Row row, RowType rowtype)
         {
-            openXmlRowBuilderStrategy = GetOpenXmlRowBuilderOption(rowtype);
-            openXmlRowBuilderStrategy.BuildRow(adifRecord, row, rowtype);
+            openXmlRowBuilderStrategy = GetOpenXmlRowBuilderOption(rowtype);            
+            int fieldCounter = 1;
+
+            foreach (var adifField in adifRecord.Fields)
+            {
+                if (fieldCounter > 1)
+                {                    
+                    openXmlRowBuilderStrategy.AppendRow(row, adifField);
+                }
+
+                fieldCounter++;
+            }
+
         }
     }
 }
