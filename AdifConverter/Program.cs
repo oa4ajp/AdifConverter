@@ -23,18 +23,15 @@ namespace AdifConverter
             // Create the container as usual.
             var container = new Container();
 
-            // Register your types, for instance:
-            container.Register<ICSVService, CSVService>();
-            container.Register<IOpenXmlService, OpenXmlService>();            
+            // Register your types, for instance:          
             container.Register<IDataGridService, DataGridService>();
             container.Register<IADIFRecordService, ADIFRecordService>();            
             container.Register<IADIFFieldService, ADIFFieldService>();
-            container.Register<IFileService, FileService>();
 
             //Strategy Pattern
-            container.RegisterConditional<IFileBuilderStrategy, FileCsvBuilder>(WithParamName("fileCsvBuilder"));
-            container.RegisterConditional<IFileBuilderStrategy, FilePlanillaCsvBuilder>(WithParamName("filePlanillaCsvBuilder"));
-            container.RegisterConditional<IFileBuilderStrategy, FileXlsxBuilder>(WithParamName("fileXlsxBuilder"));
+            container.RegisterConditional<IFileServiceStrategy, FileCSVService>(WithParamName("fileCSVService"));
+            container.RegisterConditional<IFileServiceStrategy, FileCSVPlanillaService>(WithParamName("fileCSVPlanillaService"));
+            container.RegisterConditional<IFileServiceStrategy, FileOpenXmlService>(WithParamName("fileOpenXmlService"));
 
             container.RegisterConditional<IOpenXmlRowBuilderStrategy, OpenXmlRowHeaderBuilder>(WithParamName("openXmlRowHeaderBuilder"));
             container.RegisterConditional<IOpenXmlRowBuilderStrategy, OpenXmlRowDataBuilder>(WithParamName("openXmlRowDataBuilder"));

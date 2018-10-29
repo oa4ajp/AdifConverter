@@ -4,7 +4,7 @@ using static AdifConverter.Enums.Enums;
 
 namespace AdifConverter.Strategy
 {
-    public class OpenXmlRowDataBuilder : OpenXmlRowBuilder, IOpenXmlRowBuilderStrategy
+    public class OpenXmlRowDataBuilder : OpenXmlRowBuilderBase, IOpenXmlRowBuilderStrategy
     {
         public void BuildRow(ADIFRecord adifRecord, Row row, RowType rowtype)
         {

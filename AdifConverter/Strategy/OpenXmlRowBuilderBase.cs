@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace AdifConverter.Strategy
 {
-    public abstract class OpenXmlRowBuilder
+    public abstract class OpenXmlRowBuilderBase
     {
         public Cell ConstructCell(string value, CellValues dataType)
         {

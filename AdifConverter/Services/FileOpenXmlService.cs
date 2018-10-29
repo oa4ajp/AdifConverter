@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AdifConverter.Models;
+﻿using AdifConverter.Models;
+using AdifConverter.Services.Interfaces;
 using AdifConverter.Strategy;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static AdifConverter.Enums.Enums;
-using AdifConverter.Services.Interfaces;
 
 namespace AdifConverter.Services
 {
-    public class OpenXmlService : IOpenXmlService
+    public class FileOpenXmlService : FileServiceBase, IFileServiceStrategy
     {
         private IOpenXmlRowBuilderStrategy openXmlRowBuilderStrategy;
 
         private IOpenXmlRowBuilderStrategy _openXmlRowHeaderBuilder;
         private IOpenXmlRowBuilderStrategy _openXmlRowDataBuilder;
 
-        public OpenXmlService(IOpenXmlRowBuilderStrategy openXmlRowHeaderBuilder, IOpenXmlRowBuilderStrategy openXmlRowDataBuilder)
+        public FileOpenXmlService(IOpenXmlRowBuilderStrategy openXmlRowHeaderBuilder, IOpenXmlRowBuilderStrategy openXmlRowDataBuilder)
         {
             _openXmlRowHeaderBuilder = openXmlRowHeaderBuilder;
             _openXmlRowDataBuilder = openXmlRowDataBuilder;
@@ -45,15 +47,30 @@ namespace AdifConverter.Services
             return openXmlRowBuilderStrategy;
         }
 
-        public void GenerateXlsxFile(ObservableCollection<ADIFRecord> adifRecords, string filePath, string fileName)
+        public void Save(ObservableCollection<ADIFRecord> adifRecords, string filePath)
         {
-            string sheetName = string.Empty;
+            if (!ValidateRecords(adifRecords)) return;
 
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Xlsx file (*.xlsx)|*.xlsx",
+                FileName = GetFileName(filePath)
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                SaveFile(adifRecords, saveFileDialog.FileName);
+                ShowSaveConfirmation(saveFileDialog.SafeFileName);
+            }
+        }
+
+        public void SaveFile(ObservableCollection<ADIFRecord> adifRecords, string filePath)
+        {
             if (!adifRecords.Any()) return;
 
-            var firstRecord = adifRecords[0];  
+            var firstRecord = adifRecords[0];
 
-            sheetName = fileName;
+            var sheetName = Path.GetFileNameWithoutExtension(filePath); 
 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
@@ -79,7 +96,7 @@ namespace AdifConverter.Services
                 BuildRow(firstRecord, row, RowType.Header);
 
                 // Insert the header row to the Sheet Data
-                sheetData.AppendChild(row);           
+                sheetData.AppendChild(row);
 
                 foreach (var adifRecord in adifRecords)
                 {
@@ -87,7 +104,7 @@ namespace AdifConverter.Services
                     BuildRow(adifRecord, row, RowType.Data);
                     sheetData.AppendChild(row);
                 }
-                
+
                 //Insert List Data
                 worksheetPart.Worksheet.Save();
             }
@@ -96,8 +113,7 @@ namespace AdifConverter.Services
         private void BuildRow(ADIFRecord adifRecord, Row row, RowType rowtype)
         {
             openXmlRowBuilderStrategy = GetOpenXmlRowBuilderOption(rowtype);
-            openXmlRowBuilderStrategy.BuildRow(adifRecord, row, rowtype);          
+            openXmlRowBuilderStrategy.BuildRow(adifRecord, row, rowtype);
         }
-
     }
 }

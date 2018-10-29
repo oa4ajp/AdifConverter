@@ -1,5 +1,6 @@
 ﻿using AdifConverter.Models;
 using AdifConverter.Services.Interfaces;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,48 +11,33 @@ using System.Threading.Tasks;
 
 namespace AdifConverter.Services
 {
-    public class CSVService : ICSVService
+    public class FileCSVPlanillaService : FileServiceBase, IFileServiceStrategy
     {
-        private readonly string _delimiter = ";";
 
-        public CSVService() { }
+        public void Save(ObservableCollection<ADIFRecord> adifRecords, string filePath)
+        {
+            if (!ValidateRecords(adifRecords)) return;
 
-        public void SaveCsv(ObservableCollection<ADIFRecord> adifRecords, string filePath)
-        {            
-            if (!adifRecords.Any()) return;
-
-            var stringBuilderList = new List<StringBuilder>();
-
-            var csvHeader = new StringBuilder();
-            
-            var firstRecord = adifRecords[0];
-
-            BuildHeader(firstRecord, csvHeader);
-            stringBuilderList.Add(csvHeader);
-
-            foreach (var adifRecord in adifRecords)
+            var saveFileDialog = new SaveFileDialog
             {
-                var csvRow = new StringBuilder();
-                BuildRow(adifRecord, csvRow);
-                stringBuilderList.Add(csvRow);
-            }
-            
-            using (var w = new StreamWriter(filePath)) {
+                Filter = "Csv file (*.csv)|*.csv",
+                FileName = GetFileName(filePath)
+            };
 
-                foreach (var sb in stringBuilderList)
-                {
-                    w.WriteLine(sb.ToString());
-                }                
-                w.Flush();
-            }
+            if (saveFileDialog.ShowDialog() == true)
+            {
 
+                SaveFile(adifRecords, saveFileDialog.FileName);
+                ShowSaveConfirmation(saveFileDialog.SafeFileName);
+            }
+            saveFileDialog = null;
         }
 
-        public void SavePlanillaCsv(ObservableCollection<ADIFRecord> adifRecords, string filePath)
-        {            
+        public void SaveFile(ObservableCollection<ADIFRecord> adifRecords, string filePath)
+        {
             if (!adifRecords.Any()) return;
 
-            var fieldsToInclude = new List<string>(){ "QTR OA", "INDICATIVO", "REP. ENTREGADO", "REP. RECIBIDO"};
+            var fieldsToInclude = new List<string>() { "QTR OA", "INDICATIVO", "REP. ENTREGADO", "REP. RECIBIDO" };
 
             var planillaRecords = new List<ADIFRecord>();
 
@@ -70,7 +56,7 @@ namespace AdifConverter.Services
                     {
                         var qsoDate = adifRecord.Fields.Where(x => x.Name.Equals("QSO_DATE")).FirstOrDefault() ?? new ADIFField();
                         var qsoTimeOn = adifRecord.Fields.Where(x => x.Name.Equals("TIME_ON")).FirstOrDefault() ?? new ADIFField();
-                        
+
                         string qsoLocalTime = string.Empty;
 
                         //Refactor on Function to get the LocalHour
@@ -111,7 +97,7 @@ namespace AdifConverter.Services
                         Int32.TryParse(item.Value, out int stx);
 
                         var rstRcvd = adifRecord.Fields.Where(x => x.Name.Equals("RST_RCVD")).FirstOrDefault() ?? new ADIFField();
-                        
+
                         record.Fields.Add(new ADIFField() { Name = field, Value = $"{rstRcvd.Value} {stx:000}" });
                         continue;
                     }
@@ -126,7 +112,7 @@ namespace AdifConverter.Services
                         record.Fields.Add(new ADIFField() { Name = field, Value = $"{rstSent.Value} {srx:000}" });
                         continue;
                     }
-                }                
+                }
 
                 planillaRecords.Add(record);
                 recordCounter++;
@@ -158,38 +144,6 @@ namespace AdifConverter.Services
             }
         }
 
-        private void BuildHeader(ADIFRecord adifRecord, StringBuilder csvRows)
-        {
-            int totalfields = adifRecord.Fields.Count;
-            int fieldCounter = 1;
-
-            foreach (var adifField in adifRecord.Fields)
-            {
-                if (fieldCounter > 1)
-                    AppendRows(csvRows, adifField.Name, fieldCounter, totalfields);
-                fieldCounter++;
-            }
-        }
-
-        private void BuildRow(ADIFRecord adifRecord, StringBuilder csvRows)
-        {
-            int totalfields = adifRecord.Fields.Count;
-            int fieldCounter = 1;
-
-            foreach (var adifField in adifRecord.Fields)
-            {
-                if(fieldCounter > 1)
-                    AppendRows(csvRows, adifField.Value, fieldCounter, totalfields);
-
-                fieldCounter++;
-            }
-        }
-
-        private void AppendRows(StringBuilder csvRows, string fieldNameOrValue, int fieldCounter, int totalFields)
-        {
-            var adifFieldHeader = $"\"{fieldNameOrValue}\"" + (fieldCounter < totalFields ? _delimiter : "");
-            csvRows.Append(adifFieldHeader);            
-        }
 
     }
 }

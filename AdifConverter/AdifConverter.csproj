@@ -163,21 +163,16 @@
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\ADIFRecordService.cs" />
-    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\FileCSVPlanillaService.cs" />
+    <Compile Include="Services\FileCSVService.cs" />
+    <Compile Include="Services\FileOpenXmlService.cs" />
+    <Compile Include="Services\FileServiceBase.cs" />
     <Compile Include="Services\Interfaces\IADIFFieldService.cs" />
     <Compile Include="Services\Interfaces\IADIFRecordService.cs" />
-    <Compile Include="Services\Interfaces\ICSVService.cs" />
     <Compile Include="Services\Interfaces\IDataGridService.cs" />
-    <Compile Include="Services\Interfaces\IFileService.cs" />
-    <Compile Include="Services\Interfaces\IOpenXmlService.cs" />
-    <Compile Include="Strategy\FileBuilder.cs" />
-    <Compile Include="Strategy\FileCsvBuilder.cs" />
-    <Compile Include="Strategy\FilePlanillaCsvBuilder.cs" />
-    <Compile Include="Strategy\FileXlsxBuilder.cs" />
-    <Compile Include="Strategy\IFileBuilderStrategy.cs" />
+    <Compile Include="Services\Interfaces\IFileServiceStrategy.cs" />
     <Compile Include="Strategy\IOpenXmlRowBuilderStrategy.cs" />
-    <Compile Include="Services\OpenXmlService.cs" />
-    <Compile Include="Strategy\OpenXmlRowBuilder.cs" />
+    <Compile Include="Strategy\OpenXmlRowBuilderBase.cs" />
     <Compile Include="Strategy\OpenXmlRowDataBuilder.cs" />
     <Compile Include="Strategy\OpenXmlRowHeaderBuilder.cs" />
     <Compile Include="ViewModels\ADIFRecordViewModel.cs" />
@@ -189,7 +184,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Services\ADIFFieldService.cs" />
-    <Compile Include="Services\CSVService.cs" />
     <Compile Include="Services\DataGridService.cs" />
     <Compile Include="Exceptions\AdifException.cs" />
     <Compile Include="Models\ADIFField.cs" />
