@@ -1,6 +1,7 @@
 ﻿using AdifConverter.Models;
 
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using AdifConverter.Commands;
 using System.Windows.Input;
@@ -79,6 +80,11 @@ namespace AdifConverter.ViewModels
         public void ReadRecords(string fileName)
         {
             Records = _adifRecordService.ReadRecords(fileName);
+
+            if (!Records.Any())
+            {
+                MainGrid?.InvalidateVisual();
+            }
         }
 
         public void SetupGrid(DataGrid dataGrid)

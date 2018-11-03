@@ -54,7 +54,7 @@ namespace AdifConverter.Services
                 {
                     if (field.Equals("QTR OA"))
                     {
-                        var qsoDate = adifRecord.Fields.Where(x => x.Name.Equals("QSO_DATE")).FirstOrDefault() ?? new ADIFField();
+                        var qsoDate = adifRecord.Fields.FirstOrDefault(x => x.Name.Equals("QSO_DATE")) ?? new ADIFField();
                         var qsoTimeOn = adifRecord.Fields.Where(x => x.Name.Equals("TIME_ON")).FirstOrDefault() ?? new ADIFField();
 
                         string qsoLocalTime = string.Empty;

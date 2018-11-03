@@ -129,3 +129,5 @@ BorderThickness: Left,Top,Right,Bottom just set the one you want empty to 0.
 https://blog.qmatteoq.com/the-mvvm-pattern-dependency-injection/   (Explanation about Register<T> without specifying an interface.)
 
 Deployed Version 1.0.2 20181029
+
+
